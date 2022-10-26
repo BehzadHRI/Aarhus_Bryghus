@@ -2,12 +2,17 @@ package Applikation.Model;
 
 public class Produkt {
     private String navn;
-    private Produkttype produkttype;
+    private Produktgruppe produktgruppe;
 
-    public Produkt(String navn, Produkttype produkttype){
-        this.navn = navn;
-        this.produkttype = produkttype;
+    public Produktgruppe getProduktgruppe(){
+        return produktgruppe;
     }
+
+    public Produkt(String navn, Produktgruppe produktgruppe){
+        this.navn = navn;
+        this.produktgruppe = produktgruppe;
+    }
+
 
     public String getNavn() {
         return navn;
@@ -17,11 +22,26 @@ public class Produkt {
         this.navn = navn;
     }
 
-    public Produkttype getProdukttype() {
-        return produkttype;
+    public Produktgruppe getProdukttype() {
+        return produktgruppe;
     }
 
-    public void setProdukttype(Produkttype produkttype) {
-        this.produkttype = produkttype;
+
+    public void setProdukttype(Produktgruppe produktgruppe) {
+        this.produktgruppe = produktgruppe;
+    }
+
+
+    public void setProduktgruppe(Produktgruppe produktgruppe){
+        if(this.produktgruppe != produktgruppe){
+            Produktgruppe oldProduktgruppe = this.produktgruppe;
+            if(oldProduktgruppe != null){
+                oldProduktgruppe.removeProdukt(this);
+            }
+            this.produktgruppe = produktgruppe;
+            if(produktgruppe != null){
+                produktgruppe.addProdukt(this);
+            }
+        }
     }
 }
