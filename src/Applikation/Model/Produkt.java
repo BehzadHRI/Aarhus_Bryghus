@@ -26,12 +26,6 @@ public class Produkt {
         return produktgruppe;
     }
 
-
-    public void setProdukttype(Produktgruppe produktgruppe) {
-        this.produktgruppe = produktgruppe;
-    }
-
-
     public void setProduktgruppe(Produktgruppe produktgruppe){
         if(this.produktgruppe != produktgruppe){
             Produktgruppe oldProduktgruppe = this.produktgruppe;

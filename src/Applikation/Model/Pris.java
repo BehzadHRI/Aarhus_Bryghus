@@ -4,7 +4,7 @@ public class Pris {
 
     private int pris;
     private int antalKlip;
-    Produkt produkt;
+    private Produkt produkt;
 
     public Pris(int pris, int antalKlip, Produkt produkt) {
         this.pris = pris;
