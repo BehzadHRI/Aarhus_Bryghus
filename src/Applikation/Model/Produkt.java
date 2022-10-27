@@ -10,7 +10,8 @@ public class Produkt {
 
     public Produkt(String navn, Produktgruppe produktgruppe){
         this.navn = navn;
-        this.produktgruppe = produktgruppe;
+        setProduktgruppe(produktgruppe);
+
     }
 
 

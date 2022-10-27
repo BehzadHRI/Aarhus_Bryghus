@@ -32,7 +32,7 @@ public class Produktgruppe {
         }
     }
 
-
-
-
+    public String toString() {
+        return navn;
+    }
 }
