@@ -1,5 +1,0 @@
-package Applikation.Model;
-
-public enum Produkttype {
-    FLASKE, FADØL, SPIRITUS, FUSTAGE, KULSYRE, MALT, BEKLÆDNING, ANLÆG, GLAS, SAMPAKNINGER, RUNDVISNING, KLIPPEKORT
-}
