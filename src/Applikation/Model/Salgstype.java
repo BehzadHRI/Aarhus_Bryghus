@@ -24,9 +24,10 @@ public class Salgstype {
         this.navn = navn;
     }
 
-    public void opretPris(int pris, int antalKlip, Produkt produkt){
+    public Pris opretPris(int pris, int antalKlip, Produkt produkt){
         Pris prisObjekt = new Pris(pris,antalKlip,produkt);
         priser.add(prisObjekt);
+        return prisObjekt;
     }
 
 }
