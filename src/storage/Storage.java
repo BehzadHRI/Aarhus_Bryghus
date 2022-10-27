@@ -17,6 +17,11 @@ public class Storage {
         return new ArrayList<>(produktgrupper);
     }
 
+    public static void removeProduktGruppe(Produktgruppe produktgruppe){
+        if (produktgrupper.contains(produktgruppe)){
+            produktgrupper.remove(produktgruppe);
+        }
+    }
 
     //----------------------------
 }

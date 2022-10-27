@@ -4,10 +4,6 @@ public class Produkt {
     private String navn;
     private Produktgruppe produktgruppe;
 
-    public Produktgruppe getProduktgruppe(){
-        return produktgruppe;
-    }
-
     public Produkt(String navn, Produktgruppe produktgruppe){
         this.navn = navn;
         setProduktgruppe(produktgruppe);
@@ -38,5 +34,10 @@ public class Produkt {
                 produktgruppe.addProdukt(this);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return navn;
     }
 }

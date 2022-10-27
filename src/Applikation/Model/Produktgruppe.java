@@ -28,7 +28,6 @@ public class Produktgruppe {
     public void removeProdukt(Produkt produkt){
         if(produkter.contains(produkt)){
             produkter.remove(produkt);
-            produkt.setProduktgruppe(this);
         }
     }
 
