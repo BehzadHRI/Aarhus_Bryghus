@@ -34,12 +34,29 @@ public class GUI extends Application {
     private void initTabPane(TabPane tabPane){
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Tab tabAdmin = new Tab("Admin");
-        tabPane.getTabs().add(tabAdmin);
+        Tab tabSalg = new Tab("Salg");
+        tabPane.getTabs().add(tabSalg);
+        SalgPane salgPane = new SalgPane();
+        tabSalg.setContent(salgPane);
 
+        Tab tabAdmin = new Tab("OpretPro");
+        tabPane.getTabs().add(tabAdmin);
         AdminPane adminPane = new AdminPane();
         tabAdmin.setContent(adminPane);
 //        tabAdmin.setOnSelectionChanged(event -> adminPane.updateControls());
+
+        Tab tabRegSalgsType = new Tab("Opret Salgstype");
+        tabPane.getTabs().add(tabRegSalgsType);
+        RegSalgsTypePane regSalgsTypePane = new RegSalgsTypePane();
+        tabRegSalgsType.setContent(regSalgsTypePane);
+
+        Tab tabStat = new Tab("Statistik");
+        tabPane.getTabs().add(tabStat);
+        StatPane statPane = new StatPane();
+        tabStat.setContent(statPane);
+
+
+
     }
 
 }

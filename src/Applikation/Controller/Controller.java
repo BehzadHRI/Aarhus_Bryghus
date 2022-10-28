@@ -33,11 +33,13 @@ public class Controller {
         return produkt;
     }
 
-
+    public static void removeProdukt(Produkt produkt, Produktgruppe produktgruppe){
+        produktgruppe.removeProdukt(produkt);
+    }
 
 
     //---------Salgstype-------------
-/*   public static Salgstype createSalgstype(String navn) {
+    public static Salgstype createSalgstype(String navn) {
         Salgstype st = new Salgstype(navn);
         Storage.addSalgstype(st);
         return st;
@@ -47,11 +49,11 @@ public class Controller {
         return Storage.getSalgstyper();
     }
 
-    public static void removeSalgstype(Salgstype salgstype) {
-        if (salgstype.getSalgstyper().isEmpty()) {
-            Storage.removeSalgstype(salgstype);
-        }
-    }*/
+//    public static void removeSalgstype(Salgstype salgstype) {
+//        if (salgstype.getSalgstyper().isEmpty()) {
+//            Storage.removeSalgstype(salgstype);
+//        }
+//    }
 
 
 
