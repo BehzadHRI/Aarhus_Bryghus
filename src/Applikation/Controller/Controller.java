@@ -1,7 +1,9 @@
 package Applikation.Controller;
 
+import Applikation.Model.Pris;
 import Applikation.Model.Produkt;
 import Applikation.Model.Produktgruppe;
+import Applikation.Model.Salgstype;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -22,12 +24,38 @@ public class Controller {
             Storage.removeProduktGruppe(produktgruppe);
         }
     }
+
+
     //----------------------
 
     public static Produkt createProdukt(String navn, Produktgruppe pg) {
         Produkt produkt = new Produkt(navn, pg);
         return produkt;
     }
+
+
+
+
+    //---------Salgstype-------------
+/*   public static Salgstype createSalgstype(String navn) {
+        Salgstype st = new Salgstype(navn);
+        Storage.addSalgstype(st);
+        return st;
+    }
+
+    public static ArrayList<Salgstype> getSalgstyper() {
+        return Storage.getSalgstyper();
+    }
+
+    public static void removeSalgstype(Salgstype salgstype) {
+        if (salgstype.getSalgstyper().isEmpty()) {
+            Storage.removeSalgstype(salgstype);
+        }
+    }*/
+
+
+
+
 
 
     //---------------------------
@@ -50,6 +78,8 @@ public class Controller {
         Produkt p3 = Controller.createProdukt("Klosterbryg", pg2);
         Produkt p4 = Controller.createProdukt("Whisky 45% 50cl rør", pg3);
         Produkt p5 = Controller.createProdukt("Klosterbryg, 20 liter", pg4);
+
+        /*Salgstype st1 = Controller.createSalgstype("JuleFest");*/
 
 
     }

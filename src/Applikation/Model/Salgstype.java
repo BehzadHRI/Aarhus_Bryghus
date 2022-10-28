@@ -30,4 +30,8 @@ public class Salgstype {
         return prisObjekt;
     }
 
+    @Override
+    public String toString() {
+        return navn;
+    }
 }

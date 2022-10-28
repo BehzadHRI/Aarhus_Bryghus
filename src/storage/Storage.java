@@ -2,13 +2,15 @@ package storage;
 
 import Applikation.Model.Produkt;
 import Applikation.Model.Produktgruppe;
+import Applikation.Model.Salgstype;
 
 import java.util.ArrayList;
 
 public class Storage {
     private static ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
+    private static ArrayList<Salgstype> salgstyper = new ArrayList<>();
 
-    //----------------------------
+    //-------------Produktgrupper---------------
     public static void addProduktgruppe(Produktgruppe pg){
         produktgrupper.add(pg);
     }
@@ -23,5 +25,20 @@ public class Storage {
         }
     }
 
-    //----------------------------
+    //------------Salgstyper----------------
+
+    public static void addSalgstype(Salgstype st){
+        salgstyper.add(st);
+    }
+
+    public static ArrayList<Salgstype> getSalgstyper(){
+        return new ArrayList<>(salgstyper);
+    }
+
+/*    public static void removeSalgstype(Salgstype salgstype){
+        if (salgstyper.contains(salgstype)){
+            salgstyper.remove(salgstype);
+        }
+    }*/
+
 }
