@@ -1,21 +1,21 @@
 package GUI;
 
 import Applikation.Controller.Controller;
-import Applikation.Model.Produkt;
-import Applikation.Model.Produktgruppe;
-import Applikation.Model.Salg;
-import Applikation.Model.Salgstype;
+import Applikation.Model.*;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
 
 
 public class SalgPane extends GridPane {
 
     ComboBox<Salgstype> cbSalgsTyp = new ComboBox<>();
     ComboBox<Produktgruppe> cbProduktGrup = new ComboBox<>();
-    private ListView<Produkt> lvwProd;
+    private ListView<Pris> lvwProd;
     private ListView<Salg> lvwSalgList;
 
     private Button btnKontant;
@@ -25,6 +25,7 @@ public class SalgPane extends GridPane {
     private TextField txfRabat;
     private TextField txfSum;
 
+    private Salgstype salgstype;
 
 
     public SalgPane() {
@@ -37,12 +38,15 @@ public class SalgPane extends GridPane {
         //-------Salgstyper--------
         this.add(cbSalgsTyp,1,1);
         cbSalgsTyp.getItems().setAll(Controller.getSalgstyper());
-
+        ChangeListener<Salgstype> salgstypeChangeListener = (ov, oldST, newST) -> this.selectedSTchanged();
+        cbSalgsTyp.getSelectionModel().selectedItemProperty().addListener(salgstypeChangeListener);
 
 
         //-------Produktgruppe
         this.add(cbProduktGrup,1,2);
         cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
+        ChangeListener<Produktgruppe> proGrupChangeListener = (ov, oldPrGr, newPrGr) -> this.selectedProGrupChanged();
+        cbProduktGrup.getSelectionModel().selectedItemProperty().addListener(proGrupChangeListener);
 
 
         //---------Produkt----------
@@ -53,6 +57,8 @@ public class SalgPane extends GridPane {
         this.add(lvwProd,2,1,1,2);
         lvwProd.setPrefWidth(200);
         lvwProd.setPrefHeight(200);
+
+
 
 
 
@@ -101,15 +107,24 @@ public class SalgPane extends GridPane {
         txfSum.setPrefHeight(10);
 
 
+    }
 
+    private void selectedProGrupChanged(){
+        Produktgruppe pg = cbProduktGrup.getSelectionModel().getSelectedItem();
 
+        ArrayList<Pris> result = new ArrayList<>();
+        for (Pris pr : salgstype.getPriser()){
+            if (pr.getProdukt().getProdukttype() == pg){
+                result.add(pr);
+            }
+        }
 
+        lvwProd.getItems().setAll(result);
 
+    }
 
-
-
-
-
+    private void selectedSTchanged(){
+        salgstype = cbSalgsTyp.getSelectionModel().getSelectedItem();
     }
 
 

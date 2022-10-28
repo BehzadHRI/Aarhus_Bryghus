@@ -1,9 +1,6 @@
 package Applikation.Controller;
 
-import Applikation.Model.Pris;
-import Applikation.Model.Produkt;
-import Applikation.Model.Produktgruppe;
-import Applikation.Model.Salgstype;
+import Applikation.Model.*;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -49,6 +46,10 @@ public class Controller {
         return Storage.getSalgstyper();
     }
 
+    public static Pris createPrisForSalgsType(Salgstype st, Produkt produkt, int pris, int klip){
+        Pris pr = st.opretPris(pris, klip, produkt);
+        return pr;
+    }
 //    public static void removeSalgstype(Salgstype salgstype) {
 //        if (salgstype.getSalgstyper().isEmpty()) {
 //            Storage.removeSalgstype(salgstype);
@@ -83,6 +84,16 @@ public class Controller {
 
         Salgstype st1 = Controller.createSalgstype("JuleFest");
         Salgstype st2 = Controller.createSalgstype("FredagsBar");
+        Salgstype st3 = Controller.createSalgstype("Butik");
+
+        Controller.createPrisForSalgsType(st3, p1,10 , 2);
+        Controller.createPrisForSalgsType(st3, p2,100 , 2);
+        Controller.createPrisForSalgsType(st3, p3,101 , 2);
+        Controller.createPrisForSalgsType(st3, p4,90 , 2);
+        Controller.createPrisForSalgsType(st3, p5,23 , 2);
+        
+
+
 
 
 

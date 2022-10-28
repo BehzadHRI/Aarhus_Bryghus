@@ -38,4 +38,13 @@ public class Pris {
     public void setProdukt(Produkt produkt) {
         this.produkt = produkt;
     }
+
+    @Override
+    public String toString() {
+        String result = produkt + ", " + pris + "DKK";
+        if (antalKlip != 0){
+            result += ", " + antalKlip + " klip";
+        }
+        return result;
+    }
 }
