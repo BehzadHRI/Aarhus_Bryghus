@@ -81,7 +81,7 @@ public class Controller {
         Produkt p4 = Controller.createProdukt("Whisky 45% 50cl rør", pg3);
         Produkt p5 = Controller.createProdukt("Klosterbryg, 20 liter", pg4);
 
-        /*Salgstype st1 = Controller.createSalgstype("JuleFest");*/
+        Salgstype st1 = Controller.createSalgstype("JuleFest");
 
 
     }
