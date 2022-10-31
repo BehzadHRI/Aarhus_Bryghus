@@ -13,14 +13,18 @@ import java.util.ArrayList;
 
 public class SalgPane extends GridPane {
 
+
     ComboBox<Salgstype> cbSalgsTyp = new ComboBox<>();
     ComboBox<Produktgruppe> cbProduktGrup = new ComboBox<>();
-    private ListView<Pris> lvwProd;
-    private ListView<Salg> lvwSalgList;
+    ArrayList<Salg> salgList = new ArrayList<>();
 
-    private Button btnKontant;
-    private Button btnDankort;
-    private Button btnKlippeKort;
+    private ListView<Pris> lvwPris;
+    private ListView<Salg> lvwSalgList;
+    Produkt produkt;
+    Salgslinje antal;
+    Pris pris;
+    Salg salg;
+
 
     private TextField txfRabat;
     private TextField txfSum;
@@ -53,12 +57,14 @@ public class SalgPane extends GridPane {
         Label lblProd = new Label("Produkt");
         this.add(lblProd, 2,0);
 
-        lvwProd = new ListView<>();
-        this.add(lvwProd,2,1,1,2);
-        lvwProd.setPrefWidth(200);
-        lvwProd.setPrefHeight(200);
+        lvwPris = new ListView<>();
+        this.add(lvwPris,2,1,1,2);
+        lvwPris.setPrefWidth(200);
+        lvwPris.setPrefHeight(200);
 
 
+        ChangeListener<Pris> prisChangeListener = (ov, oldPr, newPr) -> this.selectedPrisChanged();
+        lvwPris.getSelectionModel().selectedItemProperty().addListener(prisChangeListener);
 
 
 
@@ -68,6 +74,9 @@ public class SalgPane extends GridPane {
 
         lvwSalgList = new ListView<>();
         this.add(lvwSalgList,3,1,1,2);
+
+
+
 
 
         //--------Knapper------------
@@ -84,7 +93,6 @@ public class SalgPane extends GridPane {
         hbxBetalingsMidButtons.getChildren().add(btnKlippeKort);
 
 
-
         //------Rabat-------
         Label lblRabat = new Label("Rabat: ");
         this.add(lblRabat,4,5);
@@ -95,48 +103,52 @@ public class SalgPane extends GridPane {
         txfRabat.setPrefHeight(10);
 
 
-
         //---------Sum--------
         Label lblSum = new Label("Sum: ");
         this.add(lblSum, 4,6);
-
 
         txfSum = new TextField();
         this.add(txfSum,5,6);
         txfSum.setPrefWidth(200);
         txfSum.setPrefHeight(10);
 
+    }
+
+
+
+
+    private void selectedPrisChanged() {
+        this.updateControls();
+    }
+
+
+    private void updateControls() {
 
     }
+
+
+
+/*        pris = lvwPris.getSelectionModel().getSelectedItem();
+        if(pris != null) {
+          lvwSalgList.getItems().setAll();
+        }*/
+
 
     private void selectedProGrupChanged(){
         Produktgruppe pg = cbProduktGrup.getSelectionModel().getSelectedItem();
 
         ArrayList<Pris> result = new ArrayList<>();
         for (Pris pr : salgstype.getPriser()){
-            if (pr.getProdukt().getProdukttype() == pg){
+            if (pr.getProdukt().getProduktgruppe() == pg){
                 result.add(pr);
             }
         }
-
-        lvwProd.getItems().setAll(result);
-
+        lvwPris.getItems().setAll(result);
     }
 
     private void selectedSTchanged(){
         salgstype = cbSalgsTyp.getSelectionModel().getSelectedItem();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

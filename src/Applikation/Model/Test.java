@@ -18,12 +18,12 @@ public class Test {
         Salgstype st2 = new Salgstype("Julefrokost");
         Salgstype st3 = new Salgstype("Somalisk højtid");
 
-        Pris pris1 = st1.opretPris(49,2,p1);
-        Pris pris2 = st2.opretPris(49,2,p2);
-        Pris pris3 = st3.opretPris(49,0,p3);
+        Pris pris1 = st1.createPris(49,2,p1,st1);
+        Pris pris2 = st2.createPris(49,2,p1,st1);
+        Pris pris3 = st3.createPris(49,0,p1,st1);
 
         Salg salg1 = new Salg(LocalDateTime.of(2022,10,27,9,30));
-        salg1.createAntal(3,pris1);
+        salg1.createSalgslinje(3,pris1);
         System.out.println(salg1.samletPris());
 
     }

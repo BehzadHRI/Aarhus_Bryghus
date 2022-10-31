@@ -5,16 +5,30 @@ public class Pris {
     private int pris;
     private int antalKlip;
     private Produkt produkt;
+    Salgstype salgstype;
 
-    public Pris(int pris, int antalKlip, Produkt produkt) {
+
+    Pris(int pris, int antalKlip, Produkt produkt, Salgstype salgstype) {
         this.pris = pris;
         this.antalKlip = antalKlip;
         this.produkt = produkt;
+        this.salgstype = salgstype;
+    }
+
+    public Salgstype getSalgstype(){
+        return salgstype;
     }
 
 
     public Produkt getProdukt() {
         return produkt;
+    }
+
+
+    public void setProdukt(Produkt produkt){
+        if(this.produkt != produkt){
+            this.produkt = produkt;
+        }
     }
 
 
@@ -35,9 +49,8 @@ public class Pris {
     }
 
 
-    public void setProdukt(Produkt produkt) {
-        this.produkt = produkt;
-    }
+
+
 
     @Override
     public String toString() {
