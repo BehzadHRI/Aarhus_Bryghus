@@ -15,7 +15,14 @@ class ProduktTest {
     void setUp() {
         p = new Produkt("Klosterbryg",pg);
     }
-    
+
+    @Test
+
+    void Produkt_TC1_tjekProduktOprettet() {
+        assertTrue(pg.getProdukter().contains(p));
+
+    }
+
 
     @Test
     void getProdukttype() {
