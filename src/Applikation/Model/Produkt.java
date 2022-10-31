@@ -10,7 +10,6 @@ public class Produkt {
 
     }
 
-
     public String getNavn() {
         return navn;
     }

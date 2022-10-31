@@ -19,7 +19,14 @@ class ProduktgruppeTest {
     @Test
     void Produktgruppe_TC1_tjeknavn() {
 
-        assertTrue(pg, pg.getNavn().contains();
+        assertTrue(pg.getNavn().contains(""));
+    }
+
+    @Test
+    void Produktgruppe_TC2_0navn() {
+        Produktgruppe pg = new Produktgruppe(null);
+
+        assertTrue(pg.getNavn().contains(""));
     }
 
     @Test
