@@ -2,6 +2,7 @@ package storage;
 
 import Applikation.Model.Produkt;
 import Applikation.Model.Produktgruppe;
+import Applikation.Model.Salg;
 import Applikation.Model.Salgstype;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class Storage {
     private static ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
     private static ArrayList<Salgstype> salgstyper = new ArrayList<>();
+    private static ArrayList<Salg> salg = new ArrayList<>();
 
     //-------------Produktgrupper---------------
     public static void addProduktgruppe(Produktgruppe pg){
@@ -40,5 +42,14 @@ public class Storage {
             salgstyper.remove(salgstype);
         }
     }*/
+
+
+    public static void addSalg(Salg s){
+        salg.add(s);
+    }
+
+    public static ArrayList<Salg> getSalg(){
+        return new ArrayList<>(salg);
+    }
 
 }

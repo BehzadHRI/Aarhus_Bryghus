@@ -30,7 +30,7 @@ public class AdminPane extends GridPane {
 
 
         //--------------Registrer ny salgstype------------
-        Label lblSalgsT = new Label("Salgstype");
+/*        Label lblSalgsT = new Label();
         this.add(lblSalgsT, 0, 0);
 
         lvwSalgsT = new ListView<>();
@@ -48,7 +48,7 @@ public class AdminPane extends GridPane {
         hbxSalgsTButtons.getChildren().add(btnOpretSalgsT);
 
         Button btnSletSalgsT = new Button("Slet");
-        hbxSalgsTButtons.getChildren().add(btnSletSalgsT);
+        hbxSalgsTButtons.getChildren().add(btnSletSalgsT);*/
 
 
         //----------------Produktgrupper-----------------
@@ -175,14 +175,17 @@ public class AdminPane extends GridPane {
         this.updateControls();
     }
 
+
     //-----------------------------
     private void selectedProdGrupChanged() {
         this.updateControls();
         btnSletProGru.setDisable(false);
     }
+
     private void selectedProdChanged(){
         this.produkt = lvwProd.getSelectionModel().getSelectedItem();
     }
+
 
     private void updateControls() {
         produktGruppe = lvwProGrup.getSelectionModel().getSelectedItem();
@@ -190,6 +193,7 @@ public class AdminPane extends GridPane {
             lvwProd.getItems().setAll(produktGruppe.getProdukter());
         }
     }
+
 
     private void updatePane() {
         lvwProGrup.getItems().setAll(Controller.getProduktGrupper());
