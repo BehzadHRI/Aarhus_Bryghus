@@ -88,6 +88,8 @@ public class SalgPane extends GridPane {
 
 
 
+
+
         //--------Knapper------------
         btnFjern = new Button("Fjern");
         this.add(btnFjern,3,3);
@@ -132,6 +134,7 @@ public class SalgPane extends GridPane {
         this.add(txfSum,5,6);
         txfSum.setPrefWidth(200);
         txfSum.setPrefHeight(10);
+
 
 
     }
