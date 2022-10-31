@@ -5,7 +5,7 @@ public class Pris {
     private int pris;
     private int antalKlip;
     private Produkt produkt;
-    Salgstype salgstype;
+    private Salgstype salgstype;
 
 
     Pris(int pris, int antalKlip, Produkt produkt, Salgstype salgstype) {

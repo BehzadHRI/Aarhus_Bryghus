@@ -20,4 +20,8 @@ public class Salgslinje {
     public void setPris(Pris pris) {
         this.pris = pris;
     }
+
+    public String toString(){
+        return pris + ", " + antal + " stk";
+    }
 }

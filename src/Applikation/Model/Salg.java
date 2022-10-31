@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public class Salg {
     private LocalDateTime datoTid;
-
-
     private ArrayList<Salgslinje> salgslinjer;
+    private String betalingsMetode;
 
     public Salg(LocalDateTime datoTid) {
         this.datoTid = datoTid;
         salgslinjer = new ArrayList<>();
+
     }
 
     public ArrayList<Salgslinje> getAntals(){
@@ -23,9 +23,17 @@ public class Salg {
     }
 
     public Salgslinje createSalgslinje(int antal, Pris pris) {
-        Salgslinje ant = new Salgslinje(antal, pris);
-        salgslinjer.add(ant);
-        return ant;
+        Salgslinje salgslinje = new Salgslinje(antal, pris);
+        salgslinjer.add(salgslinje);
+        return salgslinje;
+    }
+
+    public String getBetalingsMetode() {
+        return betalingsMetode;
+    }
+
+    public void setBetalingsMetode(String betalingsMetode) {
+        this.betalingsMetode = betalingsMetode;
     }
 
     public void removeSalgslinje(Salgslinje salgslinje) {

@@ -6,11 +6,12 @@ import java.util.ArrayList;
 public class Salgstype {
 
     private String navn;
-    private ArrayList<Pris> priser = new ArrayList<>();
+    private ArrayList<Pris> priser;
 
 
     public Salgstype(String navn){
         this.navn = navn;
+        priser = new ArrayList<>();
     }
     public ArrayList<Pris> getPriser(){
         return new ArrayList<>(priser);
