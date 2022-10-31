@@ -59,6 +59,7 @@ public class RegSalgsTypePane extends GridPane {
         lvwProdukt.setPrefHeight(200);
         lvwProdukt.setPrefWidth(200);
 
+
         Label lblPris = new Label("Priser:");
         this.add(lblPris, 1,2);
         lvwPris = new ListView<>();
