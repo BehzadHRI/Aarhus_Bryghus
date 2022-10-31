@@ -47,7 +47,7 @@ public class Controller {
     }
 
     public static Pris createPrisForSalgsType(Salgstype st, Produkt produkt, int pris, int klip){
-        Pris pr = st.opretPris(pris, klip, produkt);
+        Pris pr = st.createPris(pris, klip, produkt, st);
         return pr;
     }
 //    public static void removeSalgstype(Salgstype salgstype) {
@@ -56,6 +56,17 @@ public class Controller {
 //        }
 //    }
 
+    public static Salgslinje createSalgsLinje(Salg salg, int antal, Pris pris){
+        return salg.createSalgslinje(antal, pris);
+    }
+
+    public static int getSumforSalg(Salg salg){
+        int sum = 0;
+        for (Salgslinje sl : salg.getAntals()){
+            sum += sl.getAntal()*sl.getPris().getPris();
+        }
+        return sum;
+    }
 
 
 
@@ -91,7 +102,7 @@ public class Controller {
         Controller.createPrisForSalgsType(st3, p3,101 , 2);
         Controller.createPrisForSalgsType(st3, p4,90 , 2);
         Controller.createPrisForSalgsType(st3, p5,23 , 2);
-        
+
 
 
 

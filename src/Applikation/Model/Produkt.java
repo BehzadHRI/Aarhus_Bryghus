@@ -1,5 +1,7 @@
 package Applikation.Model;
 
+import java.util.ArrayList;
+
 public class Produkt {
     private String navn;
     private Produktgruppe produktgruppe;
@@ -7,7 +9,6 @@ public class Produkt {
     public Produkt(String navn, Produktgruppe produktgruppe){
         this.navn = navn;
         setProduktgruppe(produktgruppe);
-
     }
 
     public String getNavn() {
@@ -18,7 +19,7 @@ public class Produkt {
         this.navn = navn;
     }
 
-    public Produktgruppe getProdukttype() {
+    public Produktgruppe getProduktgruppe() {
         return produktgruppe;
     }
 
@@ -39,4 +40,7 @@ public class Produkt {
     public String toString() {
         return navn;
     }
+
+
+
 }

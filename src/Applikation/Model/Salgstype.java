@@ -1,5 +1,6 @@
 package Applikation.Model;
 
+import javax.management.PersistentMBean;
 import java.util.ArrayList;
 
 public class Salgstype {
@@ -24,11 +25,18 @@ public class Salgstype {
         this.navn = navn;
     }
 
-    public Pris opretPris(int pris, int antalKlip, Produkt produkt){
-        Pris prisObjekt = new Pris(pris,antalKlip,produkt);
+    public Pris createPris(int pris, int antalKlip,Produkt produkt, Salgstype salgstype){
+        Pris prisObjekt = new Pris(pris,antalKlip,produkt, salgstype);
         priser.add(prisObjekt);
         return prisObjekt;
     }
+
+    public void removePris(Pris pris) {
+        if (priser.contains(pris)) {
+            removePris(pris);
+        }
+    }
+
 
     @Override
     public String toString() {
