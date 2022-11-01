@@ -5,9 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -50,10 +48,17 @@ public class GUI extends Application {
         RegSalgsTypePane regSalgsTypePane = new RegSalgsTypePane();
         tabRegSalgsType.setContent(regSalgsTypePane);
 
+
         Tab tabStat = new Tab("Statistik");
         tabPane.getTabs().add(tabStat);
         StatPane statPane = new StatPane();
         tabStat.setContent(statPane);
+
+
+        Tab opretUdl = new Tab("Administrér Udlejning");
+        tabPane.getTabs().add(opretUdl);
+        AdminUdlejningPane adminUdlejningPane = new AdminUdlejningPane();
+        opretUdl.setContent(adminUdlejningPane);
 
 
 
