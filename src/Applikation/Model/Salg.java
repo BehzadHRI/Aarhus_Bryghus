@@ -7,6 +7,7 @@ public class Salg {
     private LocalDateTime datoTid;
     private ArrayList<Salgslinje> salgslinjer;
     private String betalingsMetode;
+    private int samletPris;
 
     public Salg(LocalDateTime datoTid) {
         this.datoTid = datoTid;
@@ -25,7 +26,24 @@ public class Salg {
     public Salgslinje createSalgslinje(int antal, Pris pris) {
         Salgslinje salgslinje = new Salgslinje(antal, pris);
         salgslinjer.add(salgslinje);
+        samletPris();
         return salgslinje;
+    }
+
+    public void setDatoTid(LocalDateTime datoTid) {
+        this.datoTid = datoTid;
+    }
+
+    public int getSamletPris() {
+        return samletPris;
+    }
+
+    public void setSamletPris(int samletPris) {
+        this.samletPris = samletPris;
+    }
+
+    public void setRabat(int rabat){
+        samletPris -= rabat;
     }
 
     public String getBetalingsMetode() {
@@ -38,6 +56,7 @@ public class Salg {
 
     public void removeSalgslinje(Salgslinje salgslinje) {
         salgslinjer.remove(salgslinje);
+        samletPris();
     }
 
 
@@ -52,6 +71,8 @@ public class Salg {
         for (Salgslinje ant : salgslinjer) {
             result += (ant.getAntal() * ant.getPris().getPris());
         }
+        samletPris = result;
         return result;
+
     }
 }

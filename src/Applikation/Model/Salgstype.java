@@ -33,7 +33,7 @@ public class Salgstype {
 
     public void removePris(Pris pris) {
         if (priser.contains(pris)) {
-            removePris(pris);
+            priser.remove(pris);
         }
     }
 

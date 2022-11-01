@@ -186,7 +186,6 @@ public class AdminPane extends GridPane {
         this.produkt = lvwProd.getSelectionModel().getSelectedItem();
     }
 
-
     private void updateControls() {
         produktGruppe = lvwProGrup.getSelectionModel().getSelectedItem();
         if (produktGruppe != null) {

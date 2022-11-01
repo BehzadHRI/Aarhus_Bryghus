@@ -18,13 +18,11 @@ public class SalgPane extends GridPane {
 
     ComboBox<Salgstype> cbSalgsTyp = new ComboBox<>();
     ComboBox<Produktgruppe> cbProduktGrup = new ComboBox<>();
-    ArrayList<Salg> salgList = new ArrayList<>();
+    ArrayList<Salgslinje> salgList = new ArrayList<>();
 
     private ListView<Pris> lvwPris;
     private ListView<Salgslinje> lvwSalgList;
     private Button btnBekræft, btnFjern;
-    Produkt produkt;
-    Salgslinje antal;
     private Pris pris;
     private Salg salg = new Salg(LocalDateTime.now());
 
@@ -43,14 +41,14 @@ public class SalgPane extends GridPane {
 
 
         //-------Salgstyper--------
-        this.add(cbSalgsTyp,1,1);
+        this.add(cbSalgsTyp, 1, 1);
         cbSalgsTyp.getItems().setAll(Controller.getSalgstyper());
         ChangeListener<Salgstype> salgstypeChangeListener = (ov, oldST, newST) -> this.selectedSTchanged();
         cbSalgsTyp.getSelectionModel().selectedItemProperty().addListener(salgstypeChangeListener);
 
 
         //-------Produktgruppe
-        this.add(cbProduktGrup,1,2);
+        this.add(cbProduktGrup, 1, 2);
         cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
         ChangeListener<Produktgruppe> proGrupChangeListener = (ov, oldPrGr, newPrGr) -> this.selectedProGrupChanged();
         cbProduktGrup.getSelectionModel().selectedItemProperty().addListener(proGrupChangeListener);
@@ -58,10 +56,10 @@ public class SalgPane extends GridPane {
 
         //---------Produkt----------
         Label lblProd = new Label("Produkt");
-        this.add(lblProd, 2,0);
+        this.add(lblProd, 2, 0);
 
         lvwPris = new ListView<>();
-        this.add(lvwPris,2,1,1,2);
+        this.add(lvwPris, 2, 1, 1, 2);
         lvwPris.setPrefWidth(200);
         lvwPris.setPrefHeight(200);
 
@@ -69,7 +67,7 @@ public class SalgPane extends GridPane {
         lvwPris.getSelectionModel().selectedItemProperty().addListener(prisChangeListener);
 
         HBox hbAntal = new HBox(20);
-        this.add(hbAntal, 2,3);
+        this.add(hbAntal, 2, 3);
         Label lblAntal = new Label("Antal");
         hbAntal.getChildren().add(lblAntal);
         txfAntal = new TextField();
@@ -79,65 +77,69 @@ public class SalgPane extends GridPane {
 
         //-------Salgsliste----------
         Label lblSalgsList = new Label("SalgsListe");
-        this.add(lblSalgsList,3,0);
+        this.add(lblSalgsList, 3, 0);
 
         lvwSalgList = new ListView<>();
-        this.add(lvwSalgList,3,1,1,2);
-
-
-
-
+        this.add(lvwSalgList, 3, 1, 1, 2);
+        lvwSalgList.setPrefHeight(200);
+        lvwSalgList.setPrefWidth(200);
 
         //--------Knapper------------
         btnFjern = new Button("Fjern");
-        this.add(btnFjern,3,3);
+        this.add(btnFjern, 3, 3);
         btnFjern.setDisable(true);
         btnFjern.setOnAction(event -> this.fjernCase());
 
 
-
-
         HBox hbxBetalingsMidButtons = new HBox(10);
-        this.add(hbxBetalingsMidButtons,3,4,1,1);
+        this.add(hbxBetalingsMidButtons, 3, 6, 1, 1);
 
         Button btnKontant = new Button("Kontant");
         hbxBetalingsMidButtons.getChildren().add(btnKontant);
+        btnKontant.setOnAction(event -> this.kontantCase());
 
         Button btnDankort = new Button("Dankort");
         hbxBetalingsMidButtons.getChildren().add(btnDankort);
+        btnDankort.setOnAction(event -> this.dankortCase());
 
         Button btnKlippeKort = new Button("Klippekort");
         hbxBetalingsMidButtons.getChildren().add(btnKlippeKort);
+        btnKlippeKort.setOnAction(event -> this.klippekortCase());
+
 
         btnBekræft = new Button("Tilføj");
-        this.add(btnBekræft, 2 ,4);
+        this.add(btnBekræft, 2, 4);
         btnBekræft.setDisable(true);
         btnBekræft.setOnAction(event -> this.bekræftSalgCase());
 
+
+        Button btnGodkend = new Button("Godkend");
+        this.add(btnGodkend, 3,7);
+        btnGodkend.setOnAction(event -> this.godkendSalgCase());
+
         //------Rabat-------
+        HBox hbRabat = new HBox(25);
+        this.add(hbRabat, 3, 4);
         Label lblRabat = new Label("Rabat: ");
-        this.add(lblRabat,4,5);
+        hbRabat.getChildren().add(lblRabat);
 
         txfRabat = new TextField();
-        this.add(txfRabat,5,5);
-        txfRabat.setPrefWidth(200);
-        txfRabat.setPrefHeight(10);
+        hbRabat.getChildren().add(txfRabat);
+
+        Button btnAnvend = new Button("Anvend");
+        hbRabat.getChildren().add(btnAnvend);
+        btnAnvend.setOnAction(event -> this.anvendRabatCase());
 
 
         //---------Sum--------
         Label lblSum = new Label("Sum: ");
-        this.add(lblSum, 4,6);
-
         txfSum = new TextField();
-        this.add(txfSum,5,6);
-        txfSum.setPrefWidth(200);
-        txfSum.setPrefHeight(10);
 
-
+        HBox hbSum = new HBox(30);
+        hbSum.getChildren().add(lblSum);
+        hbSum.getChildren().add(txfSum);
+        this.add(hbSum, 3, 5);
     }
-
-
-
 
     private void selectedPrisChanged() {
         pris = lvwPris.getSelectionModel().getSelectedItem();
@@ -146,10 +148,9 @@ public class SalgPane extends GridPane {
 
     }
 
-
     private void updateControls() {
         lvwSalgList.getItems().setAll(salg.getAntals());
-        txfSum.setText(""+Controller.getSumforSalg(this.salg));
+        txfSum.setText(salg.getSamletPris() + "");
         btnFjern.setDisable(false);
 
     }
@@ -173,8 +174,8 @@ public class SalgPane extends GridPane {
     private void bekræftSalgCase(){
         try {
             int antal = Integer.parseInt(txfAntal.getText());
-            salg.createSalgslinje(antal, pris);
-        }catch (NumberFormatException e){
+            Controller.createSalgsLinjeforSalg(salg, antal, pris);
+        } catch (NumberFormatException e) {
             Label warning = new Label("Ugyldig antal!");
             this.add(warning, 1,3);
             warning.setTextFill(Color.RED);
@@ -183,8 +184,39 @@ public class SalgPane extends GridPane {
     }
 
     private void fjernCase(){
-        salg.removeSalgslinje(lvwSalgList.getSelectionModel().getSelectedItem());
+        Controller.removeSalgslinjefraSalg(salg, lvwSalgList.getSelectionModel().getSelectedItem());
         this.updateControls();
     }
+
+    private void anvendRabatCase() {
+        try {
+            int rabat = Integer.parseInt(txfRabat.getText());
+            Controller.setRabatforSalg(salg, rabat);
+            this.updateControls();
+        }catch (NumberFormatException e){
+            Label warning = new Label("Ugyldig beløb!");
+            this.add(warning, 1,3);
+            warning.setTextFill(Color.RED);
+        }
+    }
+
+    private void kontantCase(){
+        Controller.setBetalingsmetode(salg, "Kontant");
+    }
+    private void dankortCase(){
+        Controller.setBetalingsmetode(salg, "Dankort");
+    }
+    private void klippekortCase(){
+        Controller.setBetalingsmetode(salg, "Klippekort");
+    }
+
+    private void godkendSalgCase(){
+        Controller.setDatoTidforSalg(salg, LocalDateTime.now());
+        Controller.createSalg(salg);
+        salg = new Salg(LocalDateTime.now());
+        updateControls();
+    }
+
+
 
 }
