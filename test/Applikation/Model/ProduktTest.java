@@ -14,6 +14,7 @@ class ProduktTest {
 
     void setUp() {
         p = new Produkt("Klosterbryg",pg);
+        pg = new Produktgruppe("Flaske");
     }
 
     @Test
