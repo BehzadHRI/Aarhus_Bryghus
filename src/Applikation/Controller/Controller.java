@@ -43,6 +43,13 @@ public class Controller {
         return st;
     }
 
+//    public static ArrayList<Pris> getPriserforProdGruppeOgSalgstype(Produktgruppe pg, Salgstype salgstype){
+//        ArrayList<Produkt> result = new ArrayList<>();
+//        for (Pris pris : salgstype.getPriser()){
+//
+//        }
+//    }
+
     public static ArrayList<Salgstype> getSalgstyper() {
         return Storage.getSalgstyper();
     }
@@ -57,9 +64,17 @@ public class Controller {
 //        }
 //    }
 
+    public static void removePrisFraSalgstype(Salgstype salgstype, Pris pris){
+        salgstype.removePris(pris);
+    }
+
     public static Salg createSalg(Salg salg){
         Storage.addSalg(salg);
         return salg;
+    }
+
+    public static void setDatoTidforSalg(Salg salg, LocalDateTime tid){
+        salg.setDatoTid(tid);
     }
 
 
@@ -76,6 +91,9 @@ public class Controller {
         salg.setRabat(rabat);
     }
 
+    public static void setBetalingsmetode(Salg salg, String betalingsmetode){
+        salg.setBetalingsMetode(betalingsmetode);
+    }
 
 
 

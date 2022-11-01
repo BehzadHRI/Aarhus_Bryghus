@@ -30,6 +30,10 @@ public class Salg {
         return salgslinje;
     }
 
+    public void setDatoTid(LocalDateTime datoTid) {
+        this.datoTid = datoTid;
+    }
+
     public int getSamletPris() {
         return samletPris;
     }
@@ -52,6 +56,7 @@ public class Salg {
 
     public void removeSalgslinje(Salgslinje salgslinje) {
         salgslinjer.remove(salgslinje);
+        samletPris();
     }
 
 

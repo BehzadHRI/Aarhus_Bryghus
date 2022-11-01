@@ -96,17 +96,26 @@ public class SalgPane extends GridPane {
 
         Button btnKontant = new Button("Kontant");
         hbxBetalingsMidButtons.getChildren().add(btnKontant);
+        btnKontant.setOnAction(event -> this.kontantCase());
 
         Button btnDankort = new Button("Dankort");
         hbxBetalingsMidButtons.getChildren().add(btnDankort);
+        btnDankort.setOnAction(event -> this.dankortCase());
 
         Button btnKlippeKort = new Button("Klippekort");
         hbxBetalingsMidButtons.getChildren().add(btnKlippeKort);
+        btnKlippeKort.setOnAction(event -> this.klippekortCase());
+
 
         btnBekræft = new Button("Tilføj");
         this.add(btnBekræft, 2, 4);
         btnBekræft.setDisable(true);
         btnBekræft.setOnAction(event -> this.bekræftSalgCase());
+
+
+        Button btnGodkend = new Button("Godkend");
+        this.add(btnGodkend, 3,7);
+        btnGodkend.setOnAction(event -> this.godkendSalgCase());
 
         //------Rabat-------
         HBox hbRabat = new HBox(25);
@@ -132,7 +141,6 @@ public class SalgPane extends GridPane {
         this.add(hbSum, 3, 5);
     }
 
-
     private void selectedPrisChanged() {
         pris = lvwPris.getSelectionModel().getSelectedItem();
         btnBekræft.setDisable(false);
@@ -141,7 +149,7 @@ public class SalgPane extends GridPane {
     }
 
     private void updateControls() {
-        lvwSalgList.getItems().setAll(salgList);
+        lvwSalgList.getItems().setAll(salg.getAntals());
         txfSum.setText(salg.getSamletPris() + "");
         btnFjern.setDisable(false);
 
@@ -186,8 +194,29 @@ public class SalgPane extends GridPane {
             Controller.setRabatforSalg(salg, rabat);
             this.updateControls();
         }catch (NumberFormatException e){
-
+            Label warning = new Label("Ugyldig beløb!");
+            this.add(warning, 1,3);
+            warning.setTextFill(Color.RED);
         }
     }
+
+    private void kontantCase(){
+        Controller.setBetalingsmetode(salg, "Kontant");
+    }
+    private void dankortCase(){
+        Controller.setBetalingsmetode(salg, "Dankort");
+    }
+    private void klippekortCase(){
+        Controller.setBetalingsmetode(salg, "Klippekort");
+    }
+
+    private void godkendSalgCase(){
+        Controller.setDatoTidforSalg(salg, LocalDateTime.now());
+        Controller.createSalg(salg);
+        salg = new Salg(LocalDateTime.now());
+        updateControls();
+    }
+
+
 
 }
