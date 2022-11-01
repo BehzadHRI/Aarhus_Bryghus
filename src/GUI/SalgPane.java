@@ -188,6 +188,9 @@ public class SalgPane extends GridPane {
             this.updateControls();
         }catch (NumberFormatException e){
 
+
+
+
         }
     }
 
