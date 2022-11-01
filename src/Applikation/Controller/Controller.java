@@ -3,6 +3,7 @@ package Applikation.Controller;
 import Applikation.Model.*;
 import storage.Storage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Controller {
@@ -56,17 +57,22 @@ public class Controller {
 //        }
 //    }
 
-    public static Salgslinje createSalgsLinje(Salg salg, int antal, Pris pris){
+    public static Salg createSalg(Salg salg){
+        Storage.addSalg(salg);
+        return salg;
+    }
+
+
+
+    public static Salgslinje createSalgsLinjeforSalg(Salg salg, int antal, Pris pris){
         return salg.createSalgslinje(antal, pris);
     }
 
-    public static int getSumforSalg(Salg salg){
-        int sum = 0;
-        for (Salgslinje sl : salg.getAntals()){
-            sum += sl.getAntal()*sl.getPris().getPris();
-        }
-        return sum;
+    public static void removeSalgslinjefraSalg(Salg salg, Salgslinje salgslinje){
+        salg.removeSalgslinje(salgslinje);
     }
+
+
 
 
 
@@ -92,6 +98,14 @@ public class Controller {
         Produkt p3 = Controller.createProdukt("Klosterbryg", pg2);
         Produkt p4 = Controller.createProdukt("Whisky 45% 50cl rør", pg3);
         Produkt p5 = Controller.createProdukt("Klosterbryg, 20 liter", pg4);
+        Produkt p6 = Controller.createProdukt("TuborgØl", pg1);
+        Produkt p7 = Controller.createProdukt("Hyggeøl", pg1);
+        Produkt p8 = Controller.createProdukt("HalalØl", pg1);
+        Produkt p9 = Controller.createProdukt("svanseøl", pg1);
+        Produkt p10 = Controller.createProdukt("VveddetikkeØl", pg1);
+        Produkt p11 = Controller.createProdukt("Alkoholfri", pg1);
+
+
 
         Salgstype st1 = Controller.createSalgstype("JuleFest");
         Salgstype st2 = Controller.createSalgstype("FredagsBar");
@@ -102,6 +116,12 @@ public class Controller {
         Controller.createPrisForSalgsType(st3, p3,101 , 2);
         Controller.createPrisForSalgsType(st3, p4,90 , 2);
         Controller.createPrisForSalgsType(st3, p5,23 , 2);
+        Controller.createPrisForSalgsType(st3, p6,100 , 2);
+        Controller.createPrisForSalgsType(st3, p7,100 , 2);
+        Controller.createPrisForSalgsType(st3, p8,100 , 2);
+        Controller.createPrisForSalgsType(st3, p9,100 , 2);
+        Controller.createPrisForSalgsType(st3, p10,100 , 2);
+        Controller.createPrisForSalgsType(st3, p11,100 , 2);
 
 
 
