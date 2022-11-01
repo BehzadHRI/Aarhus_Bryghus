@@ -24,7 +24,7 @@ public class SalgPane extends GridPane {
     private ListView<Salgslinje> lvwSalgList;
     private Button btnBekræft, btnFjern;
     private Pris pris;
-    private Salg salg;
+    private Salg salg = new Salg(LocalDateTime.now());
 
 
     private TextField txfRabat, txfAntal;
@@ -166,8 +166,7 @@ public class SalgPane extends GridPane {
     private void bekræftSalgCase(){
         try {
             int antal = Integer.parseInt(txfAntal.getText());
-
-
+            Controller.createSalgsLinjeforSalg(salg, antal, pris);
         } catch (NumberFormatException e) {
             Label warning = new Label("Ugyldig antal!");
             this.add(warning, 1,3);
@@ -177,19 +176,16 @@ public class SalgPane extends GridPane {
     }
 
     private void fjernCase(){
-        salg.removeSalgslinje(lvwSalgList.getSelectionModel().getSelectedItem());
+        Controller.removeSalgslinjefraSalg(salg, lvwSalgList.getSelectionModel().getSelectedItem());
         this.updateControls();
     }
 
     private void anvendRabatCase() {
         try {
             int rabat = Integer.parseInt(txfRabat.getText());
-            salg.setSamletPris(salg.getSamletPris()-rabat);
+            Controller.setRabatforSalg(salg, rabat);
             this.updateControls();
         }catch (NumberFormatException e){
-
-
-
 
         }
     }

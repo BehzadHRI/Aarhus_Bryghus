@@ -72,7 +72,9 @@ public class Controller {
         salg.removeSalgslinje(salgslinje);
     }
 
-
+    public static void setRabatforSalg(Salg salg, int rabat){
+        salg.setRabat(rabat);
+    }
 
 
 

@@ -38,6 +38,10 @@ public class Salg {
         this.samletPris = samletPris;
     }
 
+    public void setRabat(int rabat){
+        samletPris -= rabat;
+    }
+
     public String getBetalingsMetode() {
         return betalingsMetode;
     }
