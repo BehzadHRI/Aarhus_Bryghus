@@ -42,6 +42,7 @@ class ProduktgruppeTest {
         result.add(p3);
         result.add(p4);
         assertEquals(result,pg.getProdukter());
+
     }
 
     @Test

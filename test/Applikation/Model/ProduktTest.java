@@ -7,14 +7,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProduktTest {
 
-    private Produkt p;
     private Produktgruppe pg;
+    private Produkt p;
+
 
     @BeforeEach
 
     void setUp() {
-        p = new Produkt("Klosterbryg",pg);
         pg = new Produktgruppe("Flaske");
+        p = new Produkt("Klosterbryg",pg);
+
     }
 
     @Test
@@ -24,12 +26,13 @@ class ProduktTest {
 
     }
 
-
     @Test
-    void getProdukttype() {
+    void getProduktgruppe_TC1_getProduktgruppe() {
+        assertEquals(pg, p.getProduktgruppe());
     }
 
-    @Test
-    void setProduktgruppe() {
-    }
+
+
+
+
 }
