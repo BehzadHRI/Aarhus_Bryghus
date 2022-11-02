@@ -128,18 +128,13 @@ public class AdminPane extends GridPane {
 
     //-------- Button Actions --------
     private void opretProGruAction() {
-        Dialog<String> dialog = new TextInputDialog();
-        dialog.setTitle("Ny produktgruppe");
-        dialog.setHeaderText("Indtast navn på produktgruppe");
-        Optional<String> result = dialog.showAndWait();
-        String input = "";
-        if (result.isPresent()) {
-            input = result.get();
-            if (input.length() > 0) {
-                Controller.createProduktGruppe(input);
-                this.updatePane();
-            }
-        }
+        ProduktgruppeWindow dia = new ProduktgruppeWindow("Opret produktgruppe");
+        dia.showAndWait();
+
+        String navn = dia.getNavn();
+        Boolean kanUdlejes = dia.isKanUdlejes();
+        Controller.createProduktGruppe(navn, kanUdlejes);
+        this.updatePane();
     }
 
     private void sletProGruAction() {

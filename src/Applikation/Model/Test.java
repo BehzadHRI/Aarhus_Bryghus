@@ -6,9 +6,9 @@ public class Test {
     public static void main(String[] args) {
 
 
-        Produktgruppe pg1 = new Produktgruppe("Øl");
-        Produktgruppe pg2 = new Produktgruppe("Julebryg");
-        Produktgruppe pg3 = new Produktgruppe("Pilsner");
+        Produktgruppe pg1 = new Produktgruppe("Øl", false);
+        Produktgruppe pg2 = new Produktgruppe("Julebryg", false);
+        Produktgruppe pg3 = new Produktgruppe("Pilsner", false);
 
         Produkt p1 = new Produkt("Afghan Beer", pg1);
         Produkt p2 = new Produkt("Danish Juul", pg2);

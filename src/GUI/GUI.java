@@ -36,6 +36,7 @@ public class GUI extends Application {
         tabPane.getTabs().add(tabSalg);
         SalgPane salgPane = new SalgPane();
         tabSalg.setContent(salgPane);
+        tabSalg.setOnSelectionChanged(event -> salgPane.updatePane());
 
         Tab tabAdmin = new Tab("OpretPro");
         tabPane.getTabs().add(tabAdmin);
