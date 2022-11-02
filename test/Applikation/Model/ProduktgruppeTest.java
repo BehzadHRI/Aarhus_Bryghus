@@ -15,7 +15,7 @@ class ProduktgruppeTest {
     @BeforeEach
 
     void setUp() {
-        pg = new Produktgruppe("Flaske");
+        pg = new Produktgruppe("Flaske",);
     }
     @Test
     void Produktgruppe_TC1_tjeknavn() {
