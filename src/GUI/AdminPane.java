@@ -189,7 +189,7 @@ public class AdminPane extends GridPane {
     }
 
 
-    private void updatePane() {
+    public void updatePane() {
         lvwProGrup.getItems().setAll(Controller.getProduktGrupper());
     }
 }

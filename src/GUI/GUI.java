@@ -43,6 +43,7 @@ public class GUI extends Application {
         AdminPane adminPane = new AdminPane();
         tabAdmin.setContent(adminPane);
 //        tabAdmin.setOnSelectionChanged(event -> adminPane.updateControls());
+        tabSalg.setOnSelectionChanged(event -> adminPane.updatePane());
 
         Tab tabRegSalgsType = new Tab("Opret Salgstype");
         tabPane.getTabs().add(tabRegSalgsType);
