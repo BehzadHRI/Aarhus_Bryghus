@@ -4,12 +4,13 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProduktgruppeTest {
 
     private Produktgruppe pg;
-
 
     @BeforeEach
 
@@ -27,6 +28,20 @@ class ProduktgruppeTest {
         Produktgruppe pg = new Produktgruppe(null);
 
         assertTrue(pg.getNavn().contains(""));
+    }
+
+    @Test
+    void getProdukter_TC1_getprodukter() {
+        Produkt p1 = new Produkt("Klosterbryg", pg);
+        Produkt p2 = new Produkt("Blondie", pg);
+        Produkt p3 = new Produkt("Celebration", pg);
+        Produkt p4 = new Produkt("Julebryg", pg);
+        ArrayList<Produkt> result = new ArrayList<>();
+        result.add(p1);
+        result.add(p2);
+        result.add(p3);
+        result.add(p4);
+        assertEquals(result,pg.getProdukter());
     }
 
     @Test
@@ -75,7 +90,6 @@ class ProduktgruppeTest {
 
         assertTrue(pg.getProdukter().size() == 1);
 
-
     }
 
     @Test
@@ -86,7 +100,6 @@ class ProduktgruppeTest {
         pg.removeProdukt(p2);
 
         assertTrue(pg.getProdukter().size() == 1);
-
 
     }
 
