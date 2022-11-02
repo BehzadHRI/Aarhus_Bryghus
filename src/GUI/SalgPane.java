@@ -37,7 +37,7 @@ public class SalgPane extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(false);
+        this.setGridLinesVisible(true);
 
 
         //-------Salgstyper--------
@@ -215,6 +215,11 @@ public class SalgPane extends GridPane {
         Controller.createSalg(salg);
         salg = new Salg(LocalDateTime.now());
         updateControls();
+    }
+
+    public void updatePane(){
+        cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
+        cbSalgsTyp.getItems().setAll(Controller.getSalgstyper());
     }
 
 

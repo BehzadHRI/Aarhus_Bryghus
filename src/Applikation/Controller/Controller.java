@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Controller {
-    public static Produktgruppe createProduktGruppe(String navn) {
-        Produktgruppe pg = new Produktgruppe(navn);
+    public static Produktgruppe createProduktGruppe(String navn, boolean kanUdlejes) {
+        Produktgruppe pg = new Produktgruppe(navn, kanUdlejes);
         Storage.addProduktgruppe(pg);
         return pg;
     }
@@ -100,18 +100,18 @@ public class Controller {
 
     //---------------------------
     public static void init() {
-        Produktgruppe klip = Controller.createProduktGruppe("diverse");
-        Produktgruppe pg1 = Controller.createProduktGruppe("Flaske");
-        Produktgruppe pg2 = Controller.createProduktGruppe("Fadøl, 40 cl");
-        Produktgruppe pg3 = Controller.createProduktGruppe("Spiritus");
-        Produktgruppe pg4 = Controller.createProduktGruppe("Fustage");
-        Produktgruppe pg5 = Controller.createProduktGruppe("Kulsyre");
-        Produktgruppe pg6 = Controller.createProduktGruppe("Malt");
-        Produktgruppe pg7 = Controller.createProduktGruppe("Beklædning");
-        Produktgruppe pg8 = Controller.createProduktGruppe("Anlæg");
-        Produktgruppe pg9 = Controller.createProduktGruppe("Glas");
-        Produktgruppe pg10 = Controller.createProduktGruppe("Sampakninger");
-        Produktgruppe pg11 = Controller.createProduktGruppe("Rundvisning");
+        Produktgruppe klip = Controller.createProduktGruppe("diverse", false);
+        Produktgruppe pg1 = Controller.createProduktGruppe("Flaske", false);
+        Produktgruppe pg2 = Controller.createProduktGruppe("Fadøl, 40 cl", false);
+        Produktgruppe pg3 = Controller.createProduktGruppe("Spiritus", false);
+        Produktgruppe pg4 = Controller.createProduktGruppe("Fustage", true);
+        Produktgruppe pg5 = Controller.createProduktGruppe("Kulsyre", true);
+        Produktgruppe pg6 = Controller.createProduktGruppe("Malt", false);
+        Produktgruppe pg7 = Controller.createProduktGruppe("Beklædning", false);
+        Produktgruppe pg8 = Controller.createProduktGruppe("Anlæg", true);
+        Produktgruppe pg9 = Controller.createProduktGruppe("Glas", false);
+        Produktgruppe pg10 = Controller.createProduktGruppe("Sampakninger", false);
+        Produktgruppe pg11 = Controller.createProduktGruppe("Rundvisning", false);
 
         Produkt p1 = Controller.createProdukt("Klippekort, 4 klip", klip);
         Produkt p2 = Controller.createProdukt("Klosterbryg", pg1);
