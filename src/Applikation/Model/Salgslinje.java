@@ -21,6 +21,10 @@ public class Salgslinje {
         this.pris = pris;
     }
 
+    public void setAntal(int antal) {
+        this.antal = antal;
+    }
+
     public String toString(){
         return pris + ", " + antal + " stk";
     }

@@ -5,14 +5,30 @@ import Applikation.Model.Produktgruppe;
 import Applikation.Model.Salg;
 import Applikation.Model.Salgstype;
 
+import javax.swing.plaf.synth.SynthToolTipUI;
 import java.util.ArrayList;
 
 public class Storage {
+
+    private static volatile Storage instance;
+
+    private Storage(){
+
+    }
 
 
     private static ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
     private static ArrayList<Salgstype> salgstyper = new ArrayList<>();
     private static ArrayList<Salg> salg = new ArrayList<>();
+
+
+    public static Storage getInstance(){
+        if(instance == null){
+            instance = new Storage();
+        }
+        return instance;
+    }
+
 
 
     //-------------Produktgrupper---------------

@@ -4,15 +4,16 @@ import Applikation.Model.Produkt;
 import Applikation.Model.Udlejning;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 import javafx.stage.StageStyle;
+
+import java.util.Optional;
+import java.util.OptionalInt;
 
 
 public class UdlejWindow extends Stage {
@@ -40,7 +41,7 @@ public class UdlejWindow extends Stage {
 
     private ListView<Udlejning> lvwAktiUdl;
     private ListView<Produkt> lvwProdukter;
-    private TextField txfSumBetalt, txfTilbBetal;
+    private TextField txfSumBetalt, txfTilbBetal, txfAntalRetur;
     private Button btnRetur, btnTilbageBetal;
 
 
@@ -63,7 +64,7 @@ public class UdlejWindow extends Stage {
 
 
 
-
+        //Produkter
         Label lblUdlejsPro = new Label("Produkter");
         pane.add(lblUdlejsPro, 1, 0);
 
@@ -72,8 +73,21 @@ public class UdlejWindow extends Stage {
         lvwProdukter.setPrefHeight(100);
 
 
+        HBox hbretur = new HBox(20);
+        pane.add(hbretur,1,3 );
+
+
+        //Retur
         btnRetur = new Button("Retur");
-        pane.add(btnRetur,1,3);
+        hbretur.getChildren().add(btnRetur);
+        /*pane.add(btnRetur,1,3);*/
+
+        //Antal retur
+        txfAntalRetur = new TextField();
+        txfAntalRetur.setPromptText("Indtast antal her");
+        hbretur.getChildren().add(txfAntalRetur);
+        /*pane.add(txfAntalRetur,1,4);*/
+
 
 
         Label lblSumBetalt = new Label("Sum Betalt: ");
@@ -81,6 +95,12 @@ public class UdlejWindow extends Stage {
 
         txfSumBetalt = new TextField();
         pane.add(txfSumBetalt,3,1);
+
+
+
+
+
+
 
 
 
@@ -96,20 +116,21 @@ public class UdlejWindow extends Stage {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
+/*    private void returProdukterAction(){
+        TextInputDialog antal = new TextInputDialog("1");
+        antal.setTitle("Retur produkt");
+        antal.setHeaderText("Hvor mange produkter skal tages retur?");
+        antal.setContentText("Indtast antal på returprodukter");
+        Optional<String> result = antal.showAndWait();
+        result.isPresent())
+        Integer num = Integer.valueOf(result.get());
+        Integer input = "";
+        if(result.isPresent()){
+            input = result.get();
+            if()
+        }
+    }*/
 
 }
