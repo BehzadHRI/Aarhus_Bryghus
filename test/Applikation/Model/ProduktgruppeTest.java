@@ -10,12 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProduktgruppeTest {
 
+
+
     private Produktgruppe pg;
 
     @BeforeEach
 
     void setUp() {
-        pg = new Produktgruppe("Flaske",);
+        pg = new Produktgruppe("Flaske", true);
     }
     @Test
     void Produktgruppe_TC1_tjeknavn() {
@@ -25,7 +27,7 @@ class ProduktgruppeTest {
 
     @Test
     void Produktgruppe_TC2_0navn() {
-        Produktgruppe pg = new Produktgruppe(null);
+        Produktgruppe pg = new Produktgruppe(null,true);
 
         assertTrue(pg.getNavn().contains(""));
     }

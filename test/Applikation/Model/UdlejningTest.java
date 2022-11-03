@@ -1,0 +1,13 @@
+package Applikation.Model;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class UdlejningTest {
+
+    @Test
+    void setKunde() {
+
+    }
+}

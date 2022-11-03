@@ -14,7 +14,7 @@ class ProduktTest {
     @BeforeEach
 
     void setUp() {
-        pg = new Produktgruppe("Flaske");
+        pg = new Produktgruppe("Flaske", true);
         p = new Produkt("Klosterbryg",pg);
 
     }
