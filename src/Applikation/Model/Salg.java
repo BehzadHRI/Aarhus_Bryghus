@@ -33,10 +33,22 @@ public class Salg {
         salgslinjer.add(salgslinje);
         samletPris();
         if (pris.getAntalKlip()>0){
-            fuldklip += pris.getAntalKlip();
+            fuldklip += pris.getAntalKlip()*salgslinje.getAntal();
             klipPris += pris.getPris();
         }
         return salgslinje;
+    }
+
+    public int getFuldklip() {
+        return fuldklip;
+    }
+
+    public int getKlipPris() {
+        return klipPris;
+    }
+
+    public boolean isKlipBrugt() {
+        return klipBrugt;
     }
 
     public void setDatoTid(LocalDateTime datoTid) {

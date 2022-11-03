@@ -29,7 +29,7 @@ public class SalgPane extends GridPane {
 
 
     private TextField txfRabat, txfAntal;
-    private TextField txfSum;
+    private TextField txfSum, txfKlip;
 
     private Salgstype salgstype;
 
@@ -87,10 +87,25 @@ public class SalgPane extends GridPane {
         lvwSalgList.setPrefHeight(200);
         lvwSalgList.setPrefWidth(200);
 
+        //-----Klip------
+        HBox hbKlip = new HBox(10);
+        this.add(hbKlip, 3,4,1,3);
+        Label lblKlip = new Label("Antal klip:");
+        hbKlip.getChildren().add(lblKlip);
+
+        txfKlip = new TextField();
+        txfKlip.setDisable(true);
+        hbKlip.getChildren().add(txfKlip);
+
+        Button btnBrugKlip = new Button("Brug klip");
+        hbKlip.getChildren().add(btnBrugKlip);
+        btnBrugKlip.setOnAction(event -> this.brugKlipCase());
+
+
 
         //------Rabat-------
-        HBox hbRabat = new HBox(25);
-        this.add(hbRabat,3,4,1,3);
+        HBox hbRabat = new HBox(23);
+        this.add(hbRabat,3,5);
 
         Label lblRabat = new Label("Rabat: ");
         hbRabat.getChildren().add(lblRabat);
@@ -111,7 +126,7 @@ public class SalgPane extends GridPane {
         HBox hbSum = new HBox(30);
         hbSum.getChildren().add(lblSum);
         hbSum.getChildren().add(txfSum);
-        this.add(hbSum, 3, 5);
+        this.add(hbSum, 3, 6);
 
 
 
@@ -123,7 +138,7 @@ public class SalgPane extends GridPane {
 
 
         HBox hbxBetalingsMidButtons = new HBox(10);
-        this.add(hbxBetalingsMidButtons, 3, 6, 1, 1);
+        this.add(hbxBetalingsMidButtons, 3, 7, 1, 1);
 
         Button btnKontant = new Button("Kontant");
         hbxBetalingsMidButtons.getChildren().add(btnKontant);
@@ -148,6 +163,10 @@ public class SalgPane extends GridPane {
         this.add(btnGodkend, 4,6);
         btnGodkend.setOnAction(event -> this.godkendSalgCase());
 
+
+    }
+
+    private void brugKlipCase() {
 
     }
 
@@ -185,6 +204,7 @@ public class SalgPane extends GridPane {
         try {
             int antal = Integer.parseInt(txfAntal.getText());
             Controller.createSalgsLinjeforSalg(salg, antal, pris);
+            txfKlip.setText(salg.getFuldklip()+"");
         } catch (NumberFormatException e) {
             Label warning = new Label("Ugyldig antal!");
             this.add(warning, 1,3);
