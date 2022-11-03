@@ -3,6 +3,7 @@ package Applikation.Controller;
 import Applikation.Model.*;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -95,6 +96,20 @@ public class Controller {
         salg.setBetalingsMetode(betalingsmetode);
     }
 
+    public static ArrayList<Salg> getSalgPåDato(LocalDate dato){
+        int year = dato.getYear();
+        int month = dato.getMonthValue();
+        int day = dato.getDayOfMonth();
+
+        ArrayList<Salg> result = new ArrayList<>();
+        for (Salg sa : Storage.getSalg()){
+            if (sa.getDatoTid().getDayOfMonth() == day && sa.getDatoTid().getMonthValue() == month && sa.getDatoTid().getYear() == year){
+                result.add(sa);
+            }
+        }
+        return result;
+    }
+
 
 
 
@@ -131,20 +146,38 @@ public class Controller {
         Salgstype st2 = Controller.createSalgstype("FredagsBar");
         Salgstype st3 = Controller.createSalgstype("Butik");
 
-        Controller.createPrisForSalgsType(st3, p1,10 , 2);
-        Controller.createPrisForSalgsType(st3, p2,100 , 2);
-        Controller.createPrisForSalgsType(st3, p3,101 , 2);
-        Controller.createPrisForSalgsType(st3, p4,90 , 2);
-        Controller.createPrisForSalgsType(st3, p5,23 , 2);
-        Controller.createPrisForSalgsType(st3, p6,100 , 2);
-        Controller.createPrisForSalgsType(st3, p7,100 , 2);
-        Controller.createPrisForSalgsType(st3, p8,100 , 2);
-        Controller.createPrisForSalgsType(st3, p9,100 , 2);
-        Controller.createPrisForSalgsType(st3, p10,100 , 2);
-        Controller.createPrisForSalgsType(st3, p11,100 , 2);
+        Pris pr1 = Controller.createPrisForSalgsType(st3, p1,10 , 2);
+        Pris pr2 = Controller.createPrisForSalgsType(st3, p2,100 , 2);
+        Pris pr3 = Controller.createPrisForSalgsType(st3, p3,101 , 2);
+        Pris pr4 = Controller.createPrisForSalgsType(st3, p4,90 , 2);
+        Pris pr5 = Controller.createPrisForSalgsType(st3, p5,23 , 2);
+        Pris pr6 =  Controller.createPrisForSalgsType(st3, p6,100 , 2);
+        Pris pr7 =  Controller.createPrisForSalgsType(st3, p7,100 , 2);
+        Pris pr8 =  Controller.createPrisForSalgsType(st3, p8,100 , 2);
+        Pris pr9 =  Controller.createPrisForSalgsType(st3, p9,100 , 2);
+        Pris pr10 =  Controller.createPrisForSalgsType(st3, p10,100 , 2);
+        Pris pr11 =   Controller.createPrisForSalgsType(st3, p11,100 , 2);
 
+        Salg s1 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
+        s1.createSalgslinje(2,pr2);
+        s1.setBetalingsMetode("Dankort");
 
+        Salg s2 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
+        s2.createSalgslinje(2,pr3);
+        s2.setBetalingsMetode("Kontant");
 
+        Salg s3 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
+        s3.createSalgslinje(2,pr4);
+        s3.setBetalingsMetode("Dankort");
+
+        Salg s4 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
+        s4.createSalgslinje(2,pr5);
+        s4.setBetalingsMetode("MobilePay");
+
+        Controller.createSalg(s1);
+        Controller.createSalg(s2);
+        Controller.createSalg(s3);
+        Controller.createSalg(s4);
 
 
 
