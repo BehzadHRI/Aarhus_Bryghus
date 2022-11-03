@@ -51,6 +51,7 @@ public class GUI extends Application {
         tabRegSalgsType.setContent(regSalgsTypePane);
 
 
+
         Tab tabStat = new Tab("Statistik");
         tabPane.getTabs().add(tabStat);
         StatPane statPane = new StatPane();
