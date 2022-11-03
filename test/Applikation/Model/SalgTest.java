@@ -1,6 +1,6 @@
 package Applikation.Model;
 
-import net.bytebuddy.asm.Advice;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,8 +31,8 @@ class SalgTest {
     @Test
 
     void createSalgslinje_TC1_tjekSalgslinjeOprettet() {
-        Pris p = new Pris()
-        Salgslinje sl = new Salgslinje(2,)
+//        Pris p = new Pris(20, 1, );
+//        Salgslinje sl = new Salgslinje(2, p);
     }
 
 
