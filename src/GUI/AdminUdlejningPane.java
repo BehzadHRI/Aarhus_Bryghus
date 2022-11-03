@@ -34,7 +34,7 @@ public class AdminUdlejningPane extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
 
 
         //Gui til at vælge hvilken produktgruppe man vil udleje produkter i.
@@ -120,7 +120,8 @@ public class AdminUdlejningPane extends GridPane {
         hBox.getChildren().add(btnBekræftUdlej);
 
         //Knap til at åbne et nyt vindue med indeholdene aktive udlejninger.
-        btnAfslutUdl = new Button("Find og Afslut Udlejning");
+        Button btnAfslutUdl = new Button("Find og Afslut Udlejning");
+        btnAfslutUdl.setOnAction(event -> this.afslutUdlejAction());
         this.add(btnAfslutUdl,0,4);
 
 
@@ -137,14 +138,58 @@ public class AdminUdlejningPane extends GridPane {
         vBox3.getChildren().add(lvwAktiveUdlejninger);
 */
 
-
-
     }
 
     private void selectedProGrupChanged() {
         Produktgruppe pg = cbProGroup.getSelectionModel().getSelectedItem();
         lvwProd.getItems().setAll(pg.getProdukter());
     }
+
+
+    private void afslutUdlejAction(){
+        UdlejWindow dia = new UdlejWindow("Afslut Udlejning");
+        dia.showAndWait();
+
+        /*String navn = dia.getNavn();*/
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

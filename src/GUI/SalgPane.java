@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,7 @@ public class SalgPane extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
 
 
         //-------Salgstyper--------
@@ -48,6 +49,8 @@ public class SalgPane extends GridPane {
 
 
         //-------Produktgruppe
+
+
         this.add(cbProduktGrup, 1, 2);
         cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
         ChangeListener<Produktgruppe> proGrupChangeListener = (ov, oldPrGr, newPrGr) -> this.selectedProGrupChanged();
@@ -84,6 +87,34 @@ public class SalgPane extends GridPane {
         lvwSalgList.setPrefHeight(200);
         lvwSalgList.setPrefWidth(200);
 
+
+        //------Rabat-------
+        HBox hbRabat = new HBox(25);
+        this.add(hbRabat,3,4,1,3);
+
+        Label lblRabat = new Label("Rabat: ");
+        hbRabat.getChildren().add(lblRabat);
+
+        txfRabat = new TextField();
+        hbRabat.getChildren().add(txfRabat);
+
+        Button btnAnvend = new Button("Anvend");
+        hbRabat.getChildren().add(btnAnvend);
+        btnAnvend.setOnAction(event -> this.anvendRabatCase());
+
+
+
+        //---------Sum--------
+        Label lblSum = new Label("Sum: ");
+        txfSum = new TextField();
+
+        HBox hbSum = new HBox(30);
+        hbSum.getChildren().add(lblSum);
+        hbSum.getChildren().add(txfSum);
+        this.add(hbSum, 3, 5);
+
+
+
         //--------Knapper------------
         btnFjern = new Button("Fjern");
         this.add(btnFjern, 3, 3);
@@ -114,31 +145,10 @@ public class SalgPane extends GridPane {
 
 
         Button btnGodkend = new Button("Godkend");
-        this.add(btnGodkend, 3,7);
+        this.add(btnGodkend, 4,6);
         btnGodkend.setOnAction(event -> this.godkendSalgCase());
 
-        //------Rabat-------
-        HBox hbRabat = new HBox(25);
-        this.add(hbRabat, 3, 4);
-        Label lblRabat = new Label("Rabat: ");
-        hbRabat.getChildren().add(lblRabat);
 
-        txfRabat = new TextField();
-        hbRabat.getChildren().add(txfRabat);
-
-        Button btnAnvend = new Button("Anvend");
-        hbRabat.getChildren().add(btnAnvend);
-        btnAnvend.setOnAction(event -> this.anvendRabatCase());
-
-
-        //---------Sum--------
-        Label lblSum = new Label("Sum: ");
-        txfSum = new TextField();
-
-        HBox hbSum = new HBox(30);
-        hbSum.getChildren().add(lblSum);
-        hbSum.getChildren().add(txfSum);
-        this.add(hbSum, 3, 5);
     }
 
     private void selectedPrisChanged() {

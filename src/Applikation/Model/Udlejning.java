@@ -7,11 +7,13 @@ public class Udlejning extends Salg {
     private Kunde kunde;
 
     private boolean erAfleveret;
+    private boolean erAktiv;
 
-    public Udlejning(LocalDateTime datoTid, Kunde kunde) {
+    public Udlejning(LocalDateTime datoTid, Kunde kunde, boolean erAktiv) {
         super(datoTid);
         this.erAfleveret = false;
         this.kunde = kunde;
+        this.erAktiv = erAktiv;
     }
 
     public void setKunde (Kunde kunde){

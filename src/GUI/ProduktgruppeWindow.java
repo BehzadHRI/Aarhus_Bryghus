@@ -37,7 +37,7 @@ public class ProduktgruppeWindow extends Stage {
     private Label lblError;
 
     private void initContent(GridPane pane) {
-        pane.setPadding(new Insets(10));
+        pane.setPadding(new Insets(20));
         pane.setHgap(10);
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
@@ -53,13 +53,15 @@ public class ProduktgruppeWindow extends Stage {
         chkKanUdlejes = new CheckBox();
         pane.add(chkKanUdlejes, 1,1);
 
+        btnBekræft = new Button("Bekræft");
+        pane.add(btnBekræft, 2,0);
+        btnBekræft.setOnAction(event-> this.bekræftCase());
+
         btnAnnuller = new Button("Annuller");
-        pane.add(btnAnnuller,2,0);
+        pane.add(btnAnnuller,2,1);
         btnAnnuller.setOnAction(event -> this.annullerCase());
 
-        btnBekræft = new Button("Bekræft");
-        pane.add(btnBekræft, 2,1);
-        btnBekræft.setOnAction(event-> this.bekræftCase());
+
 
         lblError = new Label();
         pane.add(lblError,2,2);
