@@ -11,7 +11,6 @@ public class Produkt {
         setProduktgruppe(produktgruppe);
     }
 
-
     public String getNavn() {
         return navn;
     }

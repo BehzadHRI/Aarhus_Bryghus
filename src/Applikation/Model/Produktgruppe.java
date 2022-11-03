@@ -39,6 +39,10 @@ public class Produktgruppe {
         }
     }
 
+    public String getNavn() {
+        return navn;
+    }
+
     public String toString() {
         return navn;
     }
