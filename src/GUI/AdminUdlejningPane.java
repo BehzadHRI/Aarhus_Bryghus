@@ -69,7 +69,6 @@ public class AdminUdlejningPane extends GridPane {
         vbox1.getChildren().add(btnTilføj);
 
         txfAntal = new TextField();
-        txfAntal.setPromptText("Antal");
         vbox1.getChildren().add(txfAntal);
         txfAntal.setPrefWidth(60);
 

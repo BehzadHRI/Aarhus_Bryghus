@@ -8,16 +8,11 @@ public class Salg {
     private ArrayList<Salgslinje> salgslinjer;
     private String betalingsMetode;
     private int samletPris;
-    private int fuldklip;
-    private int klipPris;
-    private boolean klipBrugt;
 
     public Salg(LocalDateTime datoTid) {
         this.datoTid = datoTid;
         salgslinjer = new ArrayList<>();
-        fuldklip = 0;
-        klipPris = 0;
-        klipBrugt = false;
+
     }
 
     public ArrayList<Salgslinje> getAntals(){
@@ -32,10 +27,6 @@ public class Salg {
         Salgslinje salgslinje = new Salgslinje(antal, pris);
         salgslinjer.add(salgslinje);
         samletPris();
-        if (pris.getAntalKlip()>0){
-            fuldklip += pris.getAntalKlip();
-            klipPris += pris.getPris();
-        }
         return salgslinje;
     }
 
@@ -60,25 +51,12 @@ public class Salg {
     }
 
     public void setBetalingsMetode(String betalingsMetode) {
-        if (betalingsMetode.equals( "Klippekort")){
-            klipBrugt = true;
-        }
         this.betalingsMetode = betalingsMetode;
     }
 
     public void removeSalgslinje(Salgslinje salgslinje) {
         salgslinjer.remove(salgslinje);
         samletPris();
-    }
-
-    public void brugKlip(){
-        if (samletPris == klipPris){
-            klipBrugt = true;
-            setBetalingsMetode("KlippeKort");
-        }else{
-            klipBrugt = true;
-            samletPris -= klipPris;
-        }
     }
 
 
@@ -95,11 +73,6 @@ public class Salg {
         }
         samletPris = result;
         return result;
-    }
 
-    @Override
-    public String toString() {
-        return datoTid.getDayOfMonth() + "-" + datoTid.getMonthValue() + "-" + datoTid.getYear() + " " + datoTid.getHour()+":" + datoTid.getMinute() + "\n"
-                + betalingsMetode + ", " + samletPris + ",-";
     }
 }
