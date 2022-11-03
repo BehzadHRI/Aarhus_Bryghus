@@ -50,8 +50,8 @@ public class StatPane extends GridPane {
 
 
     }
-
     private void datoValgtAction() {
         lvwSalg.getItems().setAll(Controller.getSalgPåDato(datePickerSalg.getValue()));
+        txfSamletSalg.setText(Controller.getPrisforDagensSalg(datePickerSalg.getValue())+"");
     }
 }

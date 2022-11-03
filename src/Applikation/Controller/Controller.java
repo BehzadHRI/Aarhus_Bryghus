@@ -110,6 +110,15 @@ public class Controller {
         return result;
     }
 
+    public static int getPrisforDagensSalg(LocalDate date){
+        int pris = 0;
+        ArrayList<Salg> result = getSalgPåDato(date);
+        for (Salg sa: result){
+            pris += sa.getSamletPris();
+        }
+        return pris;
+    }
+
 
 
 
@@ -172,7 +181,7 @@ public class Controller {
 
         Salg s4 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
         s4.createSalgslinje(2,pr5);
-        s4.setBetalingsMetode("MobilePay");
+        s4.setBetalingsMetode("Klip");
 
         Controller.createSalg(s1);
         Controller.createSalg(s2);
