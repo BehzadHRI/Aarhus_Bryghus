@@ -25,7 +25,7 @@ public class Controller {
     }
 
 
-    //----------------------
+    //---------------------- produkter metoder
 
     public static Produkt createProdukt(String navn, Produktgruppe pg) {
         Produkt produkt = new Produkt(navn, pg);
