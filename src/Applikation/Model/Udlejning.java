@@ -29,4 +29,34 @@ public class Udlejning extends Salg {
         }
     }
 
+    public Kunde getKunde() {
+        return kunde;
+    }
+
+    public boolean isErAfleveret() {
+        return erAfleveret;
+    }
+
+    public void setErAfleveret(boolean erAfleveret) {
+        this.erAfleveret = erAfleveret;
+    }
+
+    public boolean isErAktiv() {
+        return erAktiv;
+    }
+
+    public void setErAktiv(boolean erAktiv) {
+        this.erAktiv = erAktiv;
+    }
+
+    public void angivReturProd(Salgslinje salgslinje, int antal){
+        for (Salgslinje sl : getAntals()){
+            if (sl == salgslinje){
+                sl.setAntal(sl.getAntal()-antal);
+            }
+        }
+    }
+
+
+
 }

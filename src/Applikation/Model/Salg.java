@@ -73,6 +73,11 @@ public class Salg {
         }
         samletPris = result;
         return result;
+    }
 
+    @Override
+    public String toString() {
+        return datoTid.getDayOfMonth() + "-" + datoTid.getMonthValue() + "-" + datoTid.getYear() + " " + datoTid.getHour()+":" + datoTid.getMinute() + "\n"
+                + betalingsMetode + ", " + samletPris + ",-";
     }
 }
