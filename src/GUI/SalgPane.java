@@ -43,15 +43,15 @@ public class SalgPane extends GridPane {
 
         //-------Salgstyper--------
         this.add(cbSalgsTyp, 1, 1);
+        cbSalgsTyp.setPromptText("Salgstype");
         cbSalgsTyp.getItems().setAll(Controller.getSalgstyper());
         ChangeListener<Salgstype> salgstypeChangeListener = (ov, oldST, newST) -> this.selectedSTchanged();
         cbSalgsTyp.getSelectionModel().selectedItemProperty().addListener(salgstypeChangeListener);
 
 
         //-------Produktgruppe
-
-
         this.add(cbProduktGrup, 1, 2);
+        cbProduktGrup.setPromptText("ProduktGruppe");
         cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
         ChangeListener<Produktgruppe> proGrupChangeListener = (ov, oldPrGr, newPrGr) -> this.selectedProGrupChanged();
         cbProduktGrup.getSelectionModel().selectedItemProperty().addListener(proGrupChangeListener);
