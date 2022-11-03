@@ -11,7 +11,7 @@ class UdlejningTest {
     @BeforeEach
 
     void setUP(){
-        k = new Kunde()
+        k = new Kunde();
     }
 
 
