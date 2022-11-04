@@ -53,6 +53,7 @@ public class Udlejning extends Salg {
         for (Salgslinje sl : getAntals()){
             if (sl == salgslinje){
                 sl.setAntal(sl.getAntal()-antal);
+                samletPris();
             }
         }
     }
