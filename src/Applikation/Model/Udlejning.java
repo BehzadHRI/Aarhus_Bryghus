@@ -9,11 +9,11 @@ public class Udlejning extends Salg {
     private boolean erAfleveret;
     private boolean erAktiv;
 
-    public Udlejning(LocalDateTime datoTid, Kunde kunde, boolean erAktiv) {
+    public Udlejning(LocalDateTime datoTid, Kunde kunde) {
         super(datoTid);
         this.erAfleveret = false;
         this.kunde = kunde;
-        this.erAktiv = erAktiv;
+        this.erAktiv = true;
     }
 
     public void setKunde (Kunde kunde){
