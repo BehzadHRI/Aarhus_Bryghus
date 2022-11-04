@@ -23,7 +23,8 @@ public class SalgPane extends GridPane {
 
     private ListView<Pris> lvwPris;
     private ListView<Salgslinje> lvwSalgList;
-    private Button btnBekræft, btnFjern;
+    private Button btnBekræft, btnFjern, btnBrugKlip;
+    private Button btnKontant, btnDankort;
     private Pris pris;
     private Salg salg = new Salg(LocalDateTime.now());
 
@@ -97,7 +98,7 @@ public class SalgPane extends GridPane {
         txfKlip.setDisable(true);
         hbKlip.getChildren().add(txfKlip);
 
-        Button btnBrugKlip = new Button("Brug klip");
+        btnBrugKlip = new Button("Brug klip");
         hbKlip.getChildren().add(btnBrugKlip);
         btnBrugKlip.setOnAction(event -> this.brugKlipCase());
 
@@ -140,18 +141,13 @@ public class SalgPane extends GridPane {
         HBox hbxBetalingsMidButtons = new HBox(10);
         this.add(hbxBetalingsMidButtons, 3, 7, 1, 1);
 
-        Button btnKontant = new Button("Kontant");
+        btnKontant = new Button("Kontant");
         hbxBetalingsMidButtons.getChildren().add(btnKontant);
         btnKontant.setOnAction(event -> this.kontantCase());
 
-        Button btnDankort = new Button("Dankort");
+        btnDankort = new Button("Dankort");
         hbxBetalingsMidButtons.getChildren().add(btnDankort);
         btnDankort.setOnAction(event -> this.dankortCase());
-
-        Button btnKlippeKort = new Button("Klippekort");
-        hbxBetalingsMidButtons.getChildren().add(btnKlippeKort);
-        btnKlippeKort.setOnAction(event -> this.klippekortCase());
-
 
         btnBekræft = new Button("Tilføj");
         this.add(btnBekræft, 2, 4);
@@ -167,6 +163,16 @@ public class SalgPane extends GridPane {
     }
 
     private void brugKlipCase() {
+        Controller.brugKlipPåSalg(salg);
+        txfSum.setText(salg.getSamletPris()+"");
+        btnBrugKlip.setDisable(true);
+        txfKlip.setText(0+"");
+        if (!(salg.getBetalingsMetode()==null)){
+            btnDankort.setDisable(true);
+            btnKontant.setDisable(true);
+        }else {
+            btnBrugKlip.setDisable(true);
+        }
 
     }
 
@@ -181,6 +187,10 @@ public class SalgPane extends GridPane {
         lvwSalgList.getItems().setAll(salg.getAntals());
         txfSum.setText(salg.getSamletPris() + "");
         btnFjern.setDisable(false);
+        btnBrugKlip.setDisable(false);
+        btnKontant.setDisable(false);
+        btnDankort.setDisable(false);
+
 
     }
 
@@ -232,12 +242,11 @@ public class SalgPane extends GridPane {
 
     private void kontantCase(){
         Controller.setBetalingsmetode(salg, "Kontant");
+        btnDankort.setDisable(true);
     }
     private void dankortCase(){
         Controller.setBetalingsmetode(salg, "Dankort");
-    }
-    private void klippekortCase(){
-        Controller.setBetalingsmetode(salg, "Klippekort");
+        btnKontant.setDisable(true);
     }
 
     private void godkendSalgCase(){

@@ -34,7 +34,7 @@ public class Salg {
         samletPris();
         if (pris.getAntalKlip()>0){
             fuldklip += pris.getAntalKlip()*salgslinje.getAntal();
-            klipPris += pris.getPris();
+            klipPris += pris.getPris()*salgslinje.getAntal();
         }
         return salgslinje;
     }
@@ -93,12 +93,6 @@ public class Salg {
         }
     }
 
-
-    public void addSalgslinje(Salgslinje salgslinje){
-        if(!salgslinjer.contains(salgslinje)){
-            salgslinjer.add(salgslinje);
-        }
-    }
 
     public int samletPris() {
         int result = 0;

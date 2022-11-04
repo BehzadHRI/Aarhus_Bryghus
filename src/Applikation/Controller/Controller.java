@@ -119,8 +119,9 @@ public class Controller {
         return pris;
     }
 
-
-
+    public static void brugKlipPåSalg(Salg salg) {
+        salg.brugKlip();
+    }
 
     //---------------------------
     public static void init() {
@@ -155,10 +156,10 @@ public class Controller {
         Salgstype st2 = Controller.createSalgstype("FredagsBar");
         Salgstype st3 = Controller.createSalgstype("Butik");
 
-        Pris pr1 = Controller.createPrisForSalgsType(st3, p1,10 , 2);
-        Pris pr2 = Controller.createPrisForSalgsType(st3, p2,100 , 2);
-        Pris pr3 = Controller.createPrisForSalgsType(st3, p3,101 , 2);
-        Pris pr4 = Controller.createPrisForSalgsType(st3, p4,90 , 2);
+        Pris pr1 = Controller.createPrisForSalgsType(st3, p1,20 , 0);
+        Pris pr2 = Controller.createPrisForSalgsType(st3, p2,100 , 0);
+        Pris pr3 = Controller.createPrisForSalgsType(st3, p3,101 , 0);
+        Pris pr4 = Controller.createPrisForSalgsType(st3, p4,90 , 0);
         Pris pr5 = Controller.createPrisForSalgsType(st3, p5,23 , 2);
         Pris pr6 =  Controller.createPrisForSalgsType(st3, p6,100 , 2);
         Pris pr7 =  Controller.createPrisForSalgsType(st3, p7,100 , 2);
@@ -191,5 +192,6 @@ public class Controller {
 
 
     }
+
 
 }
