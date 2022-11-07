@@ -20,7 +20,7 @@ public class Salg {
         klipBrugt = false;
     }
 
-    public ArrayList<Salgslinje> getAntals(){
+    public ArrayList<Salgslinje> getSalgslinjer(){
         return new ArrayList<>(salgslinjer);
     }
 
@@ -32,7 +32,8 @@ public class Salg {
         Salgslinje salgslinje = new Salgslinje(antal, pris);
         salgslinjer.add(salgslinje);
         samletPris();
-        if (pris.getAntalKlip()>0){
+
+        if (pris != null && pris.getAntalKlip()>0){
             fuldklip += pris.getAntalKlip()*salgslinje.getAntal();
             klipPris += pris.getPris()*salgslinje.getAntal();
         }
@@ -97,7 +98,9 @@ public class Salg {
     public int samletPris() {
         int result = 0;
         for (Salgslinje ant : salgslinjer) {
-            result += (ant.getAntal() * ant.getPris().getPris());
+            if (ant.getPris() != null) {
+                result += (ant.getAntal() * ant.getPris().getPris());
+            }
         }
         samletPris = result;
         return result;

@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDateTime;
@@ -23,7 +22,7 @@ public class SalgPane extends GridPane {
 
     private ListView<Pris> lvwPris;
     private ListView<Salgslinje> lvwSalgList;
-    private Button btnBekræft, btnFjern, btnBrugKlip;
+    private Button btnBekræft, btnFjern, btnBrugKlip,btnGodkend;
     private Button btnKontant, btnDankort;
     private Pris pris;
     private Salg salg = new Salg(LocalDateTime.now());
@@ -155,9 +154,10 @@ public class SalgPane extends GridPane {
         btnBekræft.setOnAction(event -> this.bekræftSalgCase());
 
 
-        Button btnGodkend = new Button("Godkend");
+        btnGodkend = new Button("Godkend");
         this.add(btnGodkend, 4,6);
         btnGodkend.setOnAction(event -> this.godkendSalgCase());
+        btnGodkend.setDisable(true);
 
 
     }
@@ -170,6 +170,7 @@ public class SalgPane extends GridPane {
         if (!(salg.getBetalingsMetode()==null)){
             btnDankort.setDisable(true);
             btnKontant.setDisable(true);
+            btnGodkend.setDisable(false);
         }else {
             btnBrugKlip.setDisable(true);
         }
@@ -184,7 +185,7 @@ public class SalgPane extends GridPane {
     }
 
     private void updateControls() {
-        lvwSalgList.getItems().setAll(salg.getAntals());
+        lvwSalgList.getItems().setAll(salg.getSalgslinjer());
         txfSum.setText(salg.getSamletPris() + "");
         btnFjern.setDisable(false);
         btnBrugKlip.setDisable(false);
@@ -228,6 +229,7 @@ public class SalgPane extends GridPane {
         this.updateControls();
     }
 
+
     private void anvendRabatCase() {
         try {
             int rabat = Integer.parseInt(txfRabat.getText());
@@ -243,17 +245,23 @@ public class SalgPane extends GridPane {
     private void kontantCase(){
         Controller.setBetalingsmetode(salg, "Kontant");
         btnDankort.setDisable(true);
+        btnGodkend.setDisable(false);
+
     }
     private void dankortCase(){
         Controller.setBetalingsmetode(salg, "Dankort");
         btnKontant.setDisable(true);
+        btnGodkend.setDisable(false);
+
     }
 
     private void godkendSalgCase(){
-        Controller.setDatoTidforSalg(salg, LocalDateTime.now());
-        Controller.createSalg(salg);
-        salg = new Salg(LocalDateTime.now());
-        updateControls();
+        if (salg.getSamletPris() != 0) {
+            Controller.setDatoTidforSalg(salg, LocalDateTime.now());
+            Controller.createSalg(salg);
+            salg = new Salg(LocalDateTime.now());
+            updateControls();
+        }
     }
 
     public void updatePane(){

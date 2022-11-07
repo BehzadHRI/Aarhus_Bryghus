@@ -50,12 +50,25 @@ public class Udlejning extends Salg {
     }
 
     public void angivReturProd(Salgslinje salgslinje, int antal){
-        for (Salgslinje sl : getAntals()){
+        for (Salgslinje sl : getSalgslinjer()){
             if (sl == salgslinje){
                 sl.setAntal(sl.getAntal()-antal);
                 samletPris();
             }
         }
+    }
+
+    public int beregnPant(){
+        int result = 0;
+        for (Salgslinje salgslinje : getSalgslinjer()) {
+            String pg = salgslinje.getPris().getProdukt().getProduktgruppe().getNavn();
+            if (pg.equals("Fustage")) {
+                result += salgslinje.getAntal() * 200;
+            } else if (pg.equals("Kulsyre")) {
+                result += salgslinje.getAntal() * 1000;
+            }
+        }
+        return result;
     }
 
 

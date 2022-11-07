@@ -8,16 +8,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDateTime;
+
 public class AdminUdlejningPane extends GridPane {
 
     private Salg salg;
-    private Udlejning udlejning;
-    private Kunde kunde;
+    private Kunde kunde = null;
+    private Udlejning udlejning = new Udlejning(LocalDateTime.now(), kunde);
     Produktgruppe produktgruppe;
     Produkt produkt;
+    Salgstype salgstype = Controller.getSalgstyper().get(1);
 
     private ComboBox<Produktgruppe> cbProGroup;
-    private ListView<Produkt> lvwProd;
+    private ListView<Pris> lvwProd;
     private ListView<Salgslinje> lvwUdlejningsListe;
     private ListView<Udlejning> lvwAktiveUdlejninger;
 
@@ -67,6 +70,8 @@ public class AdminUdlejningPane extends GridPane {
 
         btnTilføj = new Button("Tilføj");
         vbox1.getChildren().add(btnTilføj);
+        btnTilføj.setOnAction(event -> this.tilføjUdlejning());
+
 
         txfAntal = new TextField();
         txfAntal.setPromptText("Antal");
@@ -75,6 +80,7 @@ public class AdminUdlejningPane extends GridPane {
 
         btnFjern = new Button("Fjern");
         vbox1.getChildren().add(btnFjern);
+        btnFjern.setOnAction(event -> this.fjernUdlejning());
 
 
         //Udlejningslisten til udlejede produkter
@@ -98,10 +104,12 @@ public class AdminUdlejningPane extends GridPane {
         txfKundeNavn = new TextField();
         vbox2.getChildren().add(txfKundeNavn);
 
+
         Label lblKundeTlf = new Label("Telefonnummer");
         vbox2.getChildren().add(lblKundeTlf);
         txfKundeTlf = new TextField();
         vbox2.getChildren().add(txfKundeTlf);
+
 
         Label lblAdresse = new Label("Adresse");
         vbox2.getChildren().add(lblAdresse);
@@ -119,6 +127,7 @@ public class AdminUdlejningPane extends GridPane {
 
         btnBekræftUdlej = new Button("Bekræft Udlejning");
         hBox.getChildren().add(btnBekræftUdlej);
+        btnBekræftUdlej.setOnAction(event -> bekræftUdlejning());
 
         //Knap til at åbne et nyt vindue med indeholdene aktive udlejninger.
         Button btnAfslutUdl = new Button("Find og Afslut Udlejning");
@@ -143,54 +152,51 @@ public class AdminUdlejningPane extends GridPane {
 
     private void selectedProGrupChanged() {
         Produktgruppe pg = cbProGroup.getSelectionModel().getSelectedItem();
-        lvwProd.getItems().setAll(pg.getProdukter());
+        lvwProd.getItems().setAll(Controller.getPriserforProdGruppeOgSalgstype(pg,Controller.getSalgstyper().get(1)));
     }
-
 
     private void afslutUdlejAction(){
         UdlejWindow dia = new UdlejWindow("Afslut Udlejning");
         dia.showAndWait();
-
-        /*String navn = dia.getNavn();*/
-
-
-
-
     }
 
 
 
+    private void updateControls(){
+        lvwUdlejningsListe.getItems().setAll(udlejning.getSalgslinjer());
+        txfAntal.clear();
+    }
 
 
+    private void tilføjUdlejning(){
+            int antal = Integer.parseInt(txfAntal.getText());
+            Controller.createSalgslinjeForUdlejning(udlejning,antal,lvwProd.getSelectionModel().getSelectedItem());
+            txfSumInklPant.setText(udlejning.getSamletPris() + Controller.beregnPantforUdlejning(udlejning) + "");
+            this.updateControls();
+    }
 
+    private void fjernUdlejning(){
+        Controller.removeSalgslinjeFraUdlejning(udlejning,lvwUdlejningsListe.getSelectionModel().getSelectedItem());
+        txfSumInklPant.setText(udlejning.getSamletPris() + udlejning.beregnPant()+"");
+        this.updateControls();
+    }
 
+    private void bekræftUdlejning(){
+        if(udlejning.getSamletPris() != 0){
+            kunde = new Kunde(txfKundeNavn.getText(),txfKundeTlf.getText(),txfKundeAdresse.getText());
+            Controller.setDatoTidforSalg(udlejning,LocalDateTime.now());
+            Controller.createSalg(udlejning);
+            Controller.setKundeForUdlejning(udlejning,kunde);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            kunde = null;
+            udlejning = new Udlejning(LocalDateTime.now(),kunde);
+            txfSumInklPant.clear();
+            txfKundeAdresse.clear();
+            txfKundeNavn.clear();
+            txfKundeTlf.clear();
+            this.updateControls();
+        }
+    }
 
 
 }
