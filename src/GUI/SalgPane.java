@@ -23,7 +23,7 @@ public class SalgPane extends GridPane {
 
     private ListView<Pris> lvwPris;
     private ListView<Salgslinje> lvwSalgList;
-    private Button btnBekræft, btnFjern, btnBrugKlip;
+    private Button btnBekræft, btnFjern, btnBrugKlip,btnGodkend;
     private Button btnKontant, btnDankort;
     private Pris pris;
     private Salg salg = new Salg(LocalDateTime.now());
@@ -155,9 +155,10 @@ public class SalgPane extends GridPane {
         btnBekræft.setOnAction(event -> this.bekræftSalgCase());
 
 
-        Button btnGodkend = new Button("Godkend");
+        btnGodkend = new Button("Godkend");
         this.add(btnGodkend, 4,6);
         btnGodkend.setOnAction(event -> this.godkendSalgCase());
+        btnGodkend.setDisable(true);
 
 
     }
@@ -170,6 +171,7 @@ public class SalgPane extends GridPane {
         if (!(salg.getBetalingsMetode()==null)){
             btnDankort.setDisable(true);
             btnKontant.setDisable(true);
+            btnGodkend.setDisable(false);
         }else {
             btnBrugKlip.setDisable(true);
         }
@@ -243,17 +245,23 @@ public class SalgPane extends GridPane {
     private void kontantCase(){
         Controller.setBetalingsmetode(salg, "Kontant");
         btnDankort.setDisable(true);
+        btnGodkend.setDisable(false);
+        System.out.println("Kid");
     }
     private void dankortCase(){
         Controller.setBetalingsmetode(salg, "Dankort");
         btnKontant.setDisable(true);
+        btnGodkend.setDisable(false);
+
     }
 
     private void godkendSalgCase(){
-        Controller.setDatoTidforSalg(salg, LocalDateTime.now());
-        Controller.createSalg(salg);
-        salg = new Salg(LocalDateTime.now());
-        updateControls();
+        if (salg.getSamletPris() != 0) {
+            Controller.setDatoTidforSalg(salg, LocalDateTime.now());
+            Controller.createSalg(salg);
+            salg = new Salg(LocalDateTime.now());
+            updateControls();
+        }
     }
 
     public void updatePane(){
