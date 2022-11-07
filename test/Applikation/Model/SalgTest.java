@@ -48,7 +48,7 @@ class SalgTest {
         Boolean klipBrugt = false;
 
         assertEquals(dato,s.getDatoTid());
-        assertEquals(expected.getAntals().get(0).getPris(), s.getAntals().get(0).getPris());
+        assertEquals(expected.getSalgslinjer().get(0).getPris(), s.getSalgslinjer().get(0).getPris());
         assertEquals(expected.getFuldklip(),s.getFuldklip());
         assertEquals(expected.isKlipBrugt(),s.isKlipBrugt());
 
