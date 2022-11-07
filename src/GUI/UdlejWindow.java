@@ -1,5 +1,6 @@
 package GUI;
 
+import Applikation.Controller.Controller;
 import Applikation.Model.Produkt;
 import Applikation.Model.Udlejning;
 import javafx.geometry.Insets;
@@ -61,6 +62,7 @@ public class UdlejWindow extends Stage {
         lvwAktiUdl = new ListView();
         pane.add(lvwAktiUdl,0,1);
         lvwAktiUdl.setPrefHeight(100);
+        lvwAktiUdl.getItems().setAll(Controller.getAktiveUdlejninger());
 
 
 
@@ -89,18 +91,11 @@ public class UdlejWindow extends Stage {
         /*pane.add(txfAntalRetur,1,4);*/
 
 
-
         Label lblSumBetalt = new Label("Sum Betalt: ");
         pane.add(lblSumBetalt,2, 1);
 
         txfSumBetalt = new TextField();
         pane.add(txfSumBetalt,3,1);
-
-
-
-
-
-
 
 
 
@@ -113,8 +108,6 @@ public class UdlejWindow extends Stage {
 
         btnTilbageBetal = new Button("TilbageBetal");
         pane.add(btnTilbageBetal, 3,3);
-
-
 
     }
 

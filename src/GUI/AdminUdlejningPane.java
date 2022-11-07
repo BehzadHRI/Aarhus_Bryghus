@@ -165,10 +165,6 @@ public class AdminUdlejningPane extends GridPane {
     private void updateControls(){
         lvwUdlejningsListe.getItems().setAll(udlejning.getAntals());
         txfAntal.clear();
-        txfKundeAdresse.clear();
-        txfKundeNavn.clear();
-        txfKundeTlf.clear();
-        txfSumInklPant.clear();
     }
 
 
@@ -191,6 +187,10 @@ public class AdminUdlejningPane extends GridPane {
             Controller.setDatoTidforSalg(udlejning,LocalDateTime.now());
             Controller.createSalg(udlejning);
             udlejning = new Udlejning(LocalDateTime.now(),k);
+            txfSumInklPant.clear();
+            txfKundeAdresse.clear();
+            txfKundeNavn.clear();
+            txfKundeTlf.clear();
             this.updateControls();
         }
     }

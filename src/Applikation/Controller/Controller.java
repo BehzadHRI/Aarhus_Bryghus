@@ -153,6 +153,16 @@ public class Controller {
 
     }
 
+    public static ArrayList<Udlejning> getAktiveUdlejninger(){
+        ArrayList<Udlejning> result = new ArrayList<>();
+        for (Salg salg : Storage.getSalg()){
+            if(salg.getClass() == Udlejning.class){
+                result.add((Udlejning) salg);
+            }
+        }
+        return result;
+    }
+
 
     //---------------------------
     public static void init() {
