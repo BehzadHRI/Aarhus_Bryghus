@@ -247,7 +247,7 @@ public class SalgPane extends GridPane {
         Controller.setBetalingsmetode(salg, "Kontant");
         btnDankort.setDisable(true);
         btnGodkend.setDisable(false);
-        System.out.println("Kid");
+
     }
     private void dankortCase(){
         Controller.setBetalingsmetode(salg, "Dankort");
