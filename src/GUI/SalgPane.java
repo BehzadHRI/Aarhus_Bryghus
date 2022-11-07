@@ -230,6 +230,7 @@ public class SalgPane extends GridPane {
         this.updateControls();
     }
 
+
     private void anvendRabatCase() {
         try {
             int rabat = Integer.parseInt(txfRabat.getText());

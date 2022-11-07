@@ -11,6 +11,12 @@ public class Kunde {
     ArrayList<Udlejning> udlejninger = new ArrayList<>();
     ArrayList<Rundvisning> rundvisninger = new ArrayList<>();
 
+    public Kunde(String navn, String tlf, String adresse){
+        this.navn = navn;
+        this.telefon = tlf;
+        this.adresse = adresse;
+    }
+
     public ArrayList<Udlejning> getUdlejninger(){
         return new ArrayList<>(udlejninger);
     }

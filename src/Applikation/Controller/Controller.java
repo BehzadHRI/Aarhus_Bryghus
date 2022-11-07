@@ -44,12 +44,15 @@ public class Controller {
         return st;
     }
 
-//    public static ArrayList<Pris> getPriserforProdGruppeOgSalgstype(Produktgruppe pg, Salgstype salgstype){
-//        ArrayList<Produkt> result = new ArrayList<>();
-//        for (Pris pris : salgstype.getPriser()){
-//
-//        }
-//    }
+    public static ArrayList<Pris> getPriserforProdGruppeOgSalgstype(Produktgruppe pg, Salgstype salgstype){
+        ArrayList<Pris> result = new ArrayList<>();
+        for (Pris pris : salgstype.getPriser()){
+            if(pris.getProdukt().getProduktgruppe() == pg){
+                result.add(pris);
+            }
+        }
+        return result;
+    }
 
     public static ArrayList<Salgstype> getSalgstyper() {
         return Storage.getSalgstyper();
@@ -79,7 +82,6 @@ public class Controller {
     }
 
 
-
     public static Salgslinje createSalgsLinjeforSalg(Salg salg, int antal, Pris pris){
         return salg.createSalgslinje(antal, pris);
     }
@@ -87,6 +89,16 @@ public class Controller {
     public static void removeSalgslinjefraSalg(Salg salg, Salgslinje salgslinje){
         salg.removeSalgslinje(salgslinje);
     }
+
+    public static Salgslinje createSalgslinjeForUdlejning(Udlejning udlejning, int antal, Pris pris){
+        return Controller.createSalgsLinjeforSalg(udlejning,antal,pris);
+    }
+
+    public static void removeSalgslinjeFraUdlejning(Salg salg, Salgslinje salgslinje){
+        salg.removeSalgslinje(salgslinje);
+    }
+
+
 
     public static void setRabatforSalg(Salg salg, int rabat){
         salg.setRabat(rabat);
