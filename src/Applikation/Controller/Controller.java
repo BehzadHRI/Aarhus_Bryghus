@@ -32,7 +32,7 @@ public class Controller {
         return produkt;
     }
 
-    public static void removeProdukt(Produkt produkt, Produktgruppe produktgruppe){
+    public static void removeProdukt(Produkt produkt, Produktgruppe produktgruppe) {
         produktgruppe.removeProdukt(produkt);
     }
 
@@ -55,7 +55,7 @@ public class Controller {
         return Storage.getSalgstyper();
     }
 
-    public static Pris createPrisForSalgsType(Salgstype st, Produkt produkt, int pris, int klip){
+    public static Pris createPrisForSalgsType(Salgstype st, Produkt produkt, int pris, int klip) {
         Pris pr = st.createPris(pris, klip, produkt, st);
         return pr;
     }
@@ -65,55 +65,54 @@ public class Controller {
 //        }
 //    }
 
-    public static void removePrisFraSalgstype(Salgstype salgstype, Pris pris){
+    public static void removePrisFraSalgstype(Salgstype salgstype, Pris pris) {
         salgstype.removePris(pris);
     }
 
-    public static Salg createSalg(Salg salg){
+    public static Salg createSalg(Salg salg) {
         Storage.addSalg(salg);
         return salg;
     }
 
-    public static void setDatoTidforSalg(Salg salg, LocalDateTime tid){
+    public static void setDatoTidforSalg(Salg salg, LocalDateTime tid) {
         salg.setDatoTid(tid);
     }
 
 
-
-    public static Salgslinje createSalgsLinjeforSalg(Salg salg, int antal, Pris pris){
+    public static Salgslinje createSalgsLinjeforSalg(Salg salg, int antal, Pris pris) {
         return salg.createSalgslinje(antal, pris);
     }
 
-    public static void removeSalgslinjefraSalg(Salg salg, Salgslinje salgslinje){
+    public static void removeSalgslinjefraSalg(Salg salg, Salgslinje salgslinje) {
         salg.removeSalgslinje(salgslinje);
     }
 
-    public static void setRabatforSalg(Salg salg, int rabat){
+    public static void setRabatforSalg(Salg salg, int rabat) {
         salg.setRabat(rabat);
     }
 
-    public static void setBetalingsmetode(Salg salg, String betalingsmetode){
+    public static void setBetalingsmetode(Salg salg, String betalingsmetode) {
         salg.setBetalingsMetode(betalingsmetode);
     }
 
-    public static ArrayList<Salg> getSalgPåDato(LocalDate dato){
+    public static ArrayList<Salg> getSalgPåDato(LocalDate dato) {
         int year = dato.getYear();
         int month = dato.getMonthValue();
         int day = dato.getDayOfMonth();
 
         ArrayList<Salg> result = new ArrayList<>();
-        for (Salg sa : Storage.getSalg()){
-            if (sa.getDatoTid().getDayOfMonth() == day && sa.getDatoTid().getMonthValue() == month && sa.getDatoTid().getYear() == year){
+        for (Salg sa : Storage.getSalg()) {
+            if (sa.getDatoTid().getDayOfMonth() == day && sa.getDatoTid().getMonthValue() == month && sa.getDatoTid().getYear() == year) {
                 result.add(sa);
             }
         }
         return result;
     }
 
-    public static int getPrisforDagensSalg(LocalDate date){
+    public static int getPrisforDagensSalg(LocalDate date) {
         int pris = 0;
         ArrayList<Salg> result = getSalgPåDato(date);
-        for (Salg sa: result){
+        for (Salg sa : result) {
             pris += sa.getSamletPris();
         }
         return pris;
@@ -122,6 +121,24 @@ public class Controller {
     public static void brugKlipPåSalg(Salg salg) {
         salg.brugKlip();
     }
+
+    public static int getSolgteKlipIPeriode(LocalDate fraDatoInp, LocalDate tilDatoInp) {
+        int result = 0;
+        LocalDateTime fraDato = LocalDateTime.of(fraDatoInp.getYear(), fraDatoInp.getMonthValue(), fraDatoInp.getDayOfMonth(), 0, 0);
+        LocalDateTime tilDato = LocalDateTime.of(tilDatoInp.getYear(), tilDatoInp.getMonthValue(), tilDatoInp.getDayOfMonth(), 0, 0);
+        for (Salg salg : Storage.getSalg()) {
+            for (Salgslinje salgslinje : salg.getAntals()) {
+                if (salgslinje.getPris().getProdukt().getNavn().equals("diverse")
+                        && salg.getDatoTid().isBefore(tilDato.plusDays(1))
+                        && salg.getDatoTid().isAfter(fraDato.minusDays(1))) {
+                    result += 4;
+                }
+            }
+        }
+            return result;
+
+    }
+
 
     //---------------------------
     public static void init() {
@@ -142,8 +159,8 @@ public class Controller {
         Produktgruppe rundvisning = Controller.createProduktGruppe("Rundvisning", false);
 
         Produkt p1 = Controller.createProdukt("Klippekort, 4 klip", klip);
-        Pris pr1 = Controller.createPrisForSalgsType(fredagsBar, p1,130 , 0);
-        Pris pr111 = Controller.createPrisForSalgsType(butik, p1,130 , 0);
+        Pris pr1 = Controller.createPrisForSalgsType(fredagsBar, p1, 130, 0);
+        Pris pr111 = Controller.createPrisForSalgsType(butik, p1, 130, 0);
 
 
         Produkt p2 = Controller.createProdukt("Klosterbryg", flaske);
@@ -161,35 +178,34 @@ public class Controller {
         Produkt p14 = Controller.createProdukt("Black Monster ", flaske);
         Produkt p15 = Controller.createProdukt("Forårsbryg", flaske);
 
-        Pris pr2 = Controller.createPrisForSalgsType(fredagsBar, p2,70 , 2);
-        Pris pr3 = Controller.createPrisForSalgsType(butik, p2,36 , 0);
-        Pris pr4 = Controller.createPrisForSalgsType(fredagsBar, p3,70 , 2);
-        Pris pr5 = Controller.createPrisForSalgsType(butik, p3,36 , 0);
-        Pris pr6 = Controller.createPrisForSalgsType(fredagsBar, p4,70 , 2);
-        Pris pr7 = Controller.createPrisForSalgsType(butik, p4,36 , 0);
-        Pris pr8 = Controller.createPrisForSalgsType(fredagsBar, p5,70 , 2);
-        Pris pr9 = Controller.createPrisForSalgsType(butik, p5,36 , 0);
-        Pris pr10 = Controller.createPrisForSalgsType(fredagsBar, p6,70 , 2);
-        Pris pr11 = Controller.createPrisForSalgsType(butik, p6,36 , 0);
-        Pris pr12 = Controller.createPrisForSalgsType(fredagsBar, p7,70 , 2);
-        Pris pr13 = Controller.createPrisForSalgsType(butik, p7,36 ,0);
-        Pris pr14 = Controller.createPrisForSalgsType(fredagsBar, p8,70 , 2);
-        Pris pr15= Controller.createPrisForSalgsType(butik, p8,36 , 0);
-        Pris pr16= Controller.createPrisForSalgsType(fredagsBar, p9,70 , 2);
-        Pris pr17= Controller.createPrisForSalgsType(butik, p9,36 , 0);
-        Pris pr18 = Controller.createPrisForSalgsType(fredagsBar, p10,70 , 2);
-        Pris pr19 = Controller.createPrisForSalgsType(butik, p10,36 , 0);
-        Pris pr20 = Controller.createPrisForSalgsType(fredagsBar, p11,70 , 2);
-        Pris pr21 = Controller.createPrisForSalgsType(butik, p11,36 , 0);
-        Pris pr22 = Controller.createPrisForSalgsType(fredagsBar, p12,70 , 2);
-        Pris pr23 = Controller.createPrisForSalgsType(butik, p12,36 , 0);
-        Pris pr24 = Controller.createPrisForSalgsType(fredagsBar, p13,70 , 2);
-        Pris pr25 = Controller.createPrisForSalgsType(butik, p13,36 , 0);
-        Pris pr26 = Controller.createPrisForSalgsType(fredagsBar, p14,70 , 2);
-        Pris pr27 = Controller.createPrisForSalgsType(butik, p14,36 , 0);
-        Pris pr28 = Controller.createPrisForSalgsType(fredagsBar, p15,100, 3);
-        Pris pr29 = Controller.createPrisForSalgsType(butik, p15,60 , 0);
-
+        Pris pr2 = Controller.createPrisForSalgsType(fredagsBar, p2, 70, 2);
+        Pris pr3 = Controller.createPrisForSalgsType(butik, p2, 36, 0);
+        Pris pr4 = Controller.createPrisForSalgsType(fredagsBar, p3, 70, 2);
+        Pris pr5 = Controller.createPrisForSalgsType(butik, p3, 36, 0);
+        Pris pr6 = Controller.createPrisForSalgsType(fredagsBar, p4, 70, 2);
+        Pris pr7 = Controller.createPrisForSalgsType(butik, p4, 36, 0);
+        Pris pr8 = Controller.createPrisForSalgsType(fredagsBar, p5, 70, 2);
+        Pris pr9 = Controller.createPrisForSalgsType(butik, p5, 36, 0);
+        Pris pr10 = Controller.createPrisForSalgsType(fredagsBar, p6, 70, 2);
+        Pris pr11 = Controller.createPrisForSalgsType(butik, p6, 36, 0);
+        Pris pr12 = Controller.createPrisForSalgsType(fredagsBar, p7, 70, 2);
+        Pris pr13 = Controller.createPrisForSalgsType(butik, p7, 36, 0);
+        Pris pr14 = Controller.createPrisForSalgsType(fredagsBar, p8, 70, 2);
+        Pris pr15 = Controller.createPrisForSalgsType(butik, p8, 36, 0);
+        Pris pr16 = Controller.createPrisForSalgsType(fredagsBar, p9, 70, 2);
+        Pris pr17 = Controller.createPrisForSalgsType(butik, p9, 36, 0);
+        Pris pr18 = Controller.createPrisForSalgsType(fredagsBar, p10, 70, 2);
+        Pris pr19 = Controller.createPrisForSalgsType(butik, p10, 36, 0);
+        Pris pr20 = Controller.createPrisForSalgsType(fredagsBar, p11, 70, 2);
+        Pris pr21 = Controller.createPrisForSalgsType(butik, p11, 36, 0);
+        Pris pr22 = Controller.createPrisForSalgsType(fredagsBar, p12, 70, 2);
+        Pris pr23 = Controller.createPrisForSalgsType(butik, p12, 36, 0);
+        Pris pr24 = Controller.createPrisForSalgsType(fredagsBar, p13, 70, 2);
+        Pris pr25 = Controller.createPrisForSalgsType(butik, p13, 36, 0);
+        Pris pr26 = Controller.createPrisForSalgsType(fredagsBar, p14, 70, 2);
+        Pris pr27 = Controller.createPrisForSalgsType(butik, p14, 36, 0);
+        Pris pr28 = Controller.createPrisForSalgsType(fredagsBar, p15, 100, 3);
+        Pris pr29 = Controller.createPrisForSalgsType(butik, p15, 60, 0);
 
 
         Produkt p16 = Controller.createProdukt("Klosterbryg", fadøl40cl);
@@ -211,24 +227,24 @@ public class Controller {
         Produkt p32 = Controller.createProdukt("vand", fadøl40cl);
         Produkt p33 = Controller.createProdukt("Ølpølser", fadøl40cl);
 
-        Pris pr30 = Controller.createPrisForSalgsType(fredagsBar, p16,38, 1);
-        Pris pr31 = Controller.createPrisForSalgsType(fredagsBar, p17,38, 1);
-        Pris pr32 = Controller.createPrisForSalgsType(fredagsBar, p18,38, 1);
-        Pris pr33 = Controller.createPrisForSalgsType(fredagsBar, p19,38, 1);
-        Pris pr34 = Controller.createPrisForSalgsType(fredagsBar, p20,38, 1);
-        Pris pr35 = Controller.createPrisForSalgsType(fredagsBar, p21,38, 1);
-        Pris pr36 = Controller.createPrisForSalgsType(fredagsBar, p22,38, 1);
-        Pris pr37 = Controller.createPrisForSalgsType(fredagsBar, p23,38, 1);
-        Pris pr38 = Controller.createPrisForSalgsType(fredagsBar, p24,38, 1);
-        Pris pr39 = Controller.createPrisForSalgsType(fredagsBar, p25,38, 1);
-        Pris pr40 = Controller.createPrisForSalgsType(fredagsBar, p26,15, 0);
-        Pris pr41 = Controller.createPrisForSalgsType(fredagsBar, p27,10, 0);
-        Pris pr42 = Controller.createPrisForSalgsType(fredagsBar, p28,15, 0);
-        Pris pr43 = Controller.createPrisForSalgsType(fredagsBar, p29,15, 0);
-        Pris pr44 = Controller.createPrisForSalgsType(fredagsBar, p30,15, 0);
-        Pris pr45 = Controller.createPrisForSalgsType(fredagsBar, p31,15, 0);
-        Pris pr46 = Controller.createPrisForSalgsType(fredagsBar, p32,10, 0);
-        Pris pr47 = Controller.createPrisForSalgsType(fredagsBar, p33,30, 1);
+        Pris pr30 = Controller.createPrisForSalgsType(fredagsBar, p16, 38, 1);
+        Pris pr31 = Controller.createPrisForSalgsType(fredagsBar, p17, 38, 1);
+        Pris pr32 = Controller.createPrisForSalgsType(fredagsBar, p18, 38, 1);
+        Pris pr33 = Controller.createPrisForSalgsType(fredagsBar, p19, 38, 1);
+        Pris pr34 = Controller.createPrisForSalgsType(fredagsBar, p20, 38, 1);
+        Pris pr35 = Controller.createPrisForSalgsType(fredagsBar, p21, 38, 1);
+        Pris pr36 = Controller.createPrisForSalgsType(fredagsBar, p22, 38, 1);
+        Pris pr37 = Controller.createPrisForSalgsType(fredagsBar, p23, 38, 1);
+        Pris pr38 = Controller.createPrisForSalgsType(fredagsBar, p24, 38, 1);
+        Pris pr39 = Controller.createPrisForSalgsType(fredagsBar, p25, 38, 1);
+        Pris pr40 = Controller.createPrisForSalgsType(fredagsBar, p26, 15, 0);
+        Pris pr41 = Controller.createPrisForSalgsType(fredagsBar, p27, 10, 0);
+        Pris pr42 = Controller.createPrisForSalgsType(fredagsBar, p28, 15, 0);
+        Pris pr43 = Controller.createPrisForSalgsType(fredagsBar, p29, 15, 0);
+        Pris pr44 = Controller.createPrisForSalgsType(fredagsBar, p30, 15, 0);
+        Pris pr45 = Controller.createPrisForSalgsType(fredagsBar, p31, 15, 0);
+        Pris pr46 = Controller.createPrisForSalgsType(fredagsBar, p32, 10, 0);
+        Pris pr47 = Controller.createPrisForSalgsType(fredagsBar, p33, 30, 1);
 
         Produkt p34 = Controller.createProdukt("Whisky 45% 50 cl rør", spiritus);
         Produkt p35 = Controller.createProdukt("Whisky 4 cl.", spiritus);
@@ -240,22 +256,22 @@ public class Controller {
         Produkt p41 = Controller.createProdukt("Lyng gin 50 cl", spiritus);
         Produkt p42 = Controller.createProdukt("Lyng gin 4cl", spiritus);
 
-        Pris pr48 = Controller.createPrisForSalgsType(fredagsBar, p34,599, 0);
-        Pris pr49 = Controller.createPrisForSalgsType(butik, p34,599, 0);
-        Pris pr50 = Controller.createPrisForSalgsType(fredagsBar, p35,50, 0);
-        Pris pr51 = Controller.createPrisForSalgsType(fredagsBar, p36,499, 0);
-        Pris pr52 = Controller.createPrisForSalgsType(butik, p36,499, 0);
-        Pris pr53 = Controller.createPrisForSalgsType(fredagsBar, p37,300, 0);
-        Pris pr54 = Controller.createPrisForSalgsType(butik, p37,300, 0);
-        Pris pr55 = Controller.createPrisForSalgsType(fredagsBar, p38,350, 0);
-        Pris pr56 = Controller.createPrisForSalgsType(butik, p38,350, 0);
-        Pris pr57 = Controller.createPrisForSalgsType(fredagsBar, p39,80, 0);
-        Pris pr58 = Controller.createPrisForSalgsType(butik, p39,80, 0);
-        Pris pr59 = Controller.createPrisForSalgsType(fredagsBar, p40,175, 0);
-        Pris pr60 = Controller.createPrisForSalgsType(butik, p40,175, 0);
-        Pris pr61 = Controller.createPrisForSalgsType(fredagsBar, p41,350, 0);
-        Pris pr62 = Controller.createPrisForSalgsType(butik, p41,350, 0);
-        Pris pr63 = Controller.createPrisForSalgsType(butik, p42,40, 0);
+        Pris pr48 = Controller.createPrisForSalgsType(fredagsBar, p34, 599, 0);
+        Pris pr49 = Controller.createPrisForSalgsType(butik, p34, 599, 0);
+        Pris pr50 = Controller.createPrisForSalgsType(fredagsBar, p35, 50, 0);
+        Pris pr51 = Controller.createPrisForSalgsType(fredagsBar, p36, 499, 0);
+        Pris pr52 = Controller.createPrisForSalgsType(butik, p36, 499, 0);
+        Pris pr53 = Controller.createPrisForSalgsType(fredagsBar, p37, 300, 0);
+        Pris pr54 = Controller.createPrisForSalgsType(butik, p37, 300, 0);
+        Pris pr55 = Controller.createPrisForSalgsType(fredagsBar, p38, 350, 0);
+        Pris pr56 = Controller.createPrisForSalgsType(butik, p38, 350, 0);
+        Pris pr57 = Controller.createPrisForSalgsType(fredagsBar, p39, 80, 0);
+        Pris pr58 = Controller.createPrisForSalgsType(butik, p39, 80, 0);
+        Pris pr59 = Controller.createPrisForSalgsType(fredagsBar, p40, 175, 0);
+        Pris pr60 = Controller.createPrisForSalgsType(butik, p40, 175, 0);
+        Pris pr61 = Controller.createPrisForSalgsType(fredagsBar, p41, 350, 0);
+        Pris pr62 = Controller.createPrisForSalgsType(butik, p41, 350, 0);
+        Pris pr63 = Controller.createPrisForSalgsType(butik, p42, 40, 0);
 
         Produkt p43 = Controller.createProdukt("Klosterbryg, 20 liter", fustage);
         Produkt p44 = Controller.createProdukt("Jazz Classic, 25 liter", fustage);
@@ -340,27 +356,26 @@ public class Controller {
         Produkt p74 = Controller.createProdukt("pr person pr dag", rundvisning);
         Pris pr105 = Controller.createPrisForSalgsType(butik, p74, 370, 0);
 
-        Salg s1 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
-        s1.createSalgslinje(2,pr2);
+        Salg s1 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
+        s1.createSalgslinje(2, pr2);
         s1.setBetalingsMetode("Dankort");
 
-        Salg s2 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
-        s2.createSalgslinje(2,pr3);
+        Salg s2 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
+        s2.createSalgslinje(2, pr3);
         s2.setBetalingsMetode("Kontant");
 
-        Salg s3 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
-        s3.createSalgslinje(2,pr4);
+        Salg s3 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
+        s3.createSalgslinje(2, pr4);
         s3.setBetalingsMetode("Dankort");
 
-        Salg s4 = new Salg(LocalDateTime.of(2022,11,01, 12,30));
-        s4.createSalgslinje(2,pr5);
+        Salg s4 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
+        s4.createSalgslinje(2, pr5);
         s4.setBetalingsMetode("Klip");
 
         Controller.createSalg(s1);
         Controller.createSalg(s2);
         Controller.createSalg(s3);
         Controller.createSalg(s4);
-
 
 
     }
