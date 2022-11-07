@@ -20,7 +20,7 @@ public class Salg {
         klipBrugt = false;
     }
 
-    public ArrayList<Salgslinje> getAntals(){
+    public ArrayList<Salgslinje> getSalgslinjer(){
         return new ArrayList<>(salgslinjer);
     }
 

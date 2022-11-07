@@ -17,6 +17,18 @@ public class Kunde {
         this.adresse = adresse;
     }
 
+    public String getNavn() {
+        return navn;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
     public ArrayList<Udlejning> getUdlejninger(){
         return new ArrayList<>(udlejninger);
     }

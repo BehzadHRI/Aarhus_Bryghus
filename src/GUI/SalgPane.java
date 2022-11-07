@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDateTime;
@@ -186,7 +185,7 @@ public class SalgPane extends GridPane {
     }
 
     private void updateControls() {
-        lvwSalgList.getItems().setAll(salg.getAntals());
+        lvwSalgList.getItems().setAll(salg.getSalgslinjer());
         txfSum.setText(salg.getSamletPris() + "");
         btnFjern.setDisable(false);
         btnBrugKlip.setDisable(false);

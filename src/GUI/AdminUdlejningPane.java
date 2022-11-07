@@ -163,7 +163,7 @@ public class AdminUdlejningPane extends GridPane {
 
 
     private void updateControls(){
-        lvwUdlejningsListe.getItems().setAll(udlejning.getAntals());
+        lvwUdlejningsListe.getItems().setAll(udlejning.getSalgslinjer());
         txfAntal.clear();
     }
 
@@ -171,22 +171,25 @@ public class AdminUdlejningPane extends GridPane {
     private void tilføjUdlejning(){
             int antal = Integer.parseInt(txfAntal.getText());
             Controller.createSalgslinjeForUdlejning(udlejning,antal,lvwProd.getSelectionModel().getSelectedItem());
-            txfSumInklPant.setText(udlejning.getSamletPris() + "");
+            txfSumInklPant.setText(udlejning.getSamletPris() + Controller.beregnPantforUdlejning(udlejning) + "");
             this.updateControls();
     }
 
     private void fjernUdlejning(){
         Controller.removeSalgslinjeFraUdlejning(udlejning,lvwUdlejningsListe.getSelectionModel().getSelectedItem());
-        txfSumInklPant.setText(udlejning.getSamletPris() + "");
+        txfSumInklPant.setText(udlejning.getSamletPris() + udlejning.beregnPant()+"");
         this.updateControls();
     }
 
     private void bekræftUdlejning(){
         if(udlejning.getSamletPris() != 0){
-            Kunde k = new Kunde(txfKundeNavn.getText(),txfKundeTlf.getText(),txfKundeAdresse.getText());
+            kunde = new Kunde(txfKundeNavn.getText(),txfKundeTlf.getText(),txfKundeAdresse.getText());
             Controller.setDatoTidforSalg(udlejning,LocalDateTime.now());
             Controller.createSalg(udlejning);
-            udlejning = new Udlejning(LocalDateTime.now(),k);
+            Controller.setKundeForUdlejning(udlejning,kunde);
+
+            kunde = null;
+            udlejning = new Udlejning(LocalDateTime.now(),kunde);
             txfSumInklPant.clear();
             txfKundeAdresse.clear();
             txfKundeNavn.clear();

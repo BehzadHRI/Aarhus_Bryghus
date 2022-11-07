@@ -3,7 +3,6 @@ package GUI;
 import Applikation.Controller.Controller;
 import Applikation.Model.Salg;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -85,7 +84,7 @@ public class StatPane extends GridPane {
                         setText(null);
                     }else {
                         setText(salg.getDatoTid().getDayOfMonth() + "-" + salg.getDatoTid().getMonthValue() + "-" + salg.getDatoTid().getYear() + " " + salg.getDatoTid().getHour()+":" + salg.getDatoTid().getMinute() + "\n"
-                                + salg.getBetalingsMetode() + ", " + salg.getSamletPris() + ",-" + salg.getAntals());
+                                + salg.getSalgslinjer() + ", "+ salg.getBetalingsMetode() + ", " + salg.getSamletPris() + ",-");
                     }
                 }
             };

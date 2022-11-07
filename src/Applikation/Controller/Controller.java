@@ -141,7 +141,7 @@ public class Controller {
         LocalDateTime fraDato = LocalDateTime.of(fraDatoInp.getYear(), fraDatoInp.getMonthValue(), fraDatoInp.getDayOfMonth(), 0, 0);
         LocalDateTime tilDato = LocalDateTime.of(tilDatoInp.getYear(), tilDatoInp.getMonthValue(), tilDatoInp.getDayOfMonth(), 0, 0);
         for (Salg salg : Storage.getSalg()) {
-            for (Salgslinje salgslinje : salg.getAntals()) {
+            for (Salgslinje salgslinje : salg.getSalgslinjer()) {
                 if (salgslinje.getPris().getProdukt().getNavn().equals("diverse")
                         && salg.getDatoTid().isBefore(tilDato.plusDays(1))
                         && salg.getDatoTid().isAfter(fraDato.minusDays(1))) {
@@ -163,6 +163,17 @@ public class Controller {
         return result;
     }
 
+    public static void setKundeForUdlejning(Udlejning udlejning, Kunde kunde){
+        udlejning.setKunde(kunde);
+    }
+
+    public static int beregnPantforUdlejning(Udlejning udlejning){
+        return udlejning.beregnPant();
+    }
+
+    public static void returnereSalgslinjeForUdlejning(Salgslinje salgslinje, int antal, Udlejning udlejning){
+        udlejning.angivReturProd(salgslinje, antal);
+    }
 
     //---------------------------
     public static void init() {
@@ -380,6 +391,7 @@ public class Controller {
         Produkt p74 = Controller.createProdukt("pr person pr dag", rundvisning);
         Pris pr105 = Controller.createPrisForSalgsType(butik, p74, 370, 0);
 
+
         Salg s1 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
         s1.createSalgslinje(2, pr2);
         s1.setBetalingsMetode("Dankort");
@@ -401,6 +413,12 @@ public class Controller {
         Controller.createSalg(s3);
         Controller.createSalg(s4);
 
+        Kunde k1 = new Kunde("Behzad Haidari", "42334315", "Bispehavevej 3");
+        Udlejning ud1 = new Udlejning(LocalDateTime.now(), k1);
+        ud1.createSalgslinje(3, pr64);
+        ud1.createSalgslinje(2,pr67);
+
+        createSalg(ud1);
 
 
     }
