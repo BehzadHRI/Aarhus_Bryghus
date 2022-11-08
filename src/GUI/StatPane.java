@@ -11,7 +11,9 @@ import javafx.util.Callback;
 public class StatPane extends GridPane {
     private ListView<Salg> lvwSalg;
     private DatePicker datePickerSalg, dpfraKlip, dptilKlip;
-    private TextField txfSamletSalg;
+    private TextField txfSamletSalg, txfKlipSolgt, txfKlipBrugt;
+    private Label lblDato = new Label();
+    private HBox hbKlipSolgt, hbKlipBrugt;
 
     public StatPane(){
         this.setPadding(new Insets(20));
@@ -39,7 +41,7 @@ public class StatPane extends GridPane {
         hbSamletSalg.getChildren().add(lblSamletSalg);
         txfSamletSalg = new TextField();
         hbSamletSalg.getChildren().add(txfSamletSalg);
-        txfSamletSalg.setDisable(false);
+        txfSamletSalg.setDisable(true);
 
         HBox hbDatoKlipPeriode = new HBox(20);
         this.add(hbDatoKlipPeriode, 0,3);
@@ -56,9 +58,22 @@ public class StatPane extends GridPane {
         btnTjekKlipPeri.setOnAction(event -> klipPeriodeAction());
 
 
+        hbKlipSolgt = new HBox(20);
+        Label lblSolgteKlip = new Label("Solgte klip");
+        hbKlipSolgt.getChildren().add(lblSolgteKlip);
+        txfKlipSolgt = new TextField();
+        hbKlipSolgt.getChildren().add(txfKlipSolgt);
 
 
+        hbKlipBrugt = new HBox(20);
+        Label lblBrugteKlip = new Label("Brugte klip");
+        hbKlipBrugt.getChildren().add(lblBrugteKlip);
+        txfKlipBrugt = new TextField();
+        hbKlipBrugt.getChildren().add(txfKlipBrugt);
 
+        this.add(lblDato, 0, 4);
+        this.add(hbKlipSolgt, 0, 5);
+        this.add(hbKlipBrugt,0,6);
     }
     private void datoValgtAction() {
         lvwSalg.getItems().setAll(Controller.getSalgPåDato(datePickerSalg.getValue()));
@@ -68,10 +83,9 @@ public class StatPane extends GridPane {
     }
 
     private void klipPeriodeAction(){
-        Label lblDato = new Label(dpfraKlip.getValue() + " - " + dptilKlip.getValue());
-        this.add(lblDato,0,4);
-        TextField txfKlipSolgt = new TextField();
-        this.add(txfKlipSolgt, 0,5);
+            lblDato.setText(dpfraKlip.getValue() + " - " + dptilKlip.getValue());
+            txfKlipSolgt.setText(Controller.getSolgteKlipIPeriode(dpfraKlip.getValue(), dptilKlip.getValue()) + "");
+            txfKlipBrugt.setText(Controller.getBrugteKlipPeriode(dpfraKlip.getValue(),dptilKlip.getValue())+"");
 
     }
 

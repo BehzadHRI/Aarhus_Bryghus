@@ -20,7 +20,7 @@ public class Salg {
         klipBrugt = false;
     }
 
-    public ArrayList<Salgslinje> getSalgslinjer(){
+    public ArrayList<Salgslinje> getSalgslinjer() {
         return new ArrayList<>(salgslinjer);
     }
 
@@ -33,9 +33,9 @@ public class Salg {
         salgslinjer.add(salgslinje);
         samletPris();
 
-        if (pris != null && pris.getAntalKlip()>0){
-            fuldklip += pris.getAntalKlip()*salgslinje.getAntal();
-            klipPris += pris.getPris()*salgslinje.getAntal();
+        if (pris != null && pris.getAntalKlip() > 0) {
+            fuldklip += pris.getAntalKlip() * salgslinje.getAntal();
+            klipPris += pris.getPris() * salgslinje.getAntal();
         }
         return salgslinje;
     }
@@ -64,7 +64,7 @@ public class Salg {
         this.samletPris = samletPris;
     }
 
-    public void setRabat(int rabat){
+    public void setRabat(int rabat) {
         samletPris -= rabat;
     }
 
@@ -73,7 +73,7 @@ public class Salg {
     }
 
     public void setBetalingsMetode(String betalingsMetode) {
-        if (betalingsMetode.equals( "Klippekort")){
+        if (betalingsMetode.equals("Klippekort")) {
             klipBrugt = true;
         }
         this.betalingsMetode = betalingsMetode;
@@ -84,11 +84,11 @@ public class Salg {
         samletPris();
     }
 
-    public void brugKlip(){
-        if (samletPris == klipPris){
+    public void brugKlip() {
+        if (samletPris == klipPris) {
             klipBrugt = true;
             setBetalingsMetode("KlippeKort");
-        }else{
+        } else {
             klipBrugt = true;
             samletPris -= klipPris;
         }
@@ -99,7 +99,9 @@ public class Salg {
         int result = 0;
         for (Salgslinje ant : salgslinjer) {
             if (ant.getPris() != null) {
-                result += (ant.getAntal() * ant.getPris().getPris());
+                if (!(ant.getPris().getProdukt().getProduktgruppe().getNavn().equals("Anlæg"))) {
+                    result += (ant.getAntal() * ant.getPris().getPris());
+                }
             }
         }
         samletPris = result;
@@ -108,7 +110,7 @@ public class Salg {
 
     @Override
     public String toString() {
-        return datoTid.getDayOfMonth() + "-" + datoTid.getMonthValue() + "-" + datoTid.getYear() + " " + datoTid.getHour()+":" + datoTid.getMinute() + "\n"
+        return datoTid.getDayOfMonth() + "-" + datoTid.getMonthValue() + "-" + datoTid.getYear() + " " + datoTid.getHour() + ":" + datoTid.getMinute() + "\n"
                 + betalingsMetode + ", " + samletPris + ",-";
     }
 }
