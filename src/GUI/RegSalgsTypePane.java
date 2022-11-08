@@ -41,7 +41,8 @@ public class RegSalgsTypePane extends GridPane {
 
         cbSalgstype = new ComboBox<>();
         hbsalg.getChildren().add(cbSalgstype);
-        cbSalgstype.setPrefWidth(100);
+        cbSalgstype.setPromptText("Salgstype");
+        cbSalgstype.setPrefWidth(130);
         cbSalgstype.getItems().setAll(Controller.getSalgstyper());
         ChangeListener<Salgstype> salgstypeChangeListener = (ov, oldST, newST) -> this.selectedSalgsTChangedcase();
         cbSalgstype.getSelectionModel().selectedItemProperty().addListener(salgstypeChangeListener);
@@ -58,7 +59,8 @@ public class RegSalgsTypePane extends GridPane {
         cbProdGrup = new ComboBox<>();
         cbProdGrup.getItems().setAll(Controller.getProduktGrupper());
         hbProGrup.getChildren().add(cbProdGrup);
-        cbProdGrup.setPrefWidth(100);
+        cbProdGrup.setPromptText("Produktgruppe");
+        cbProdGrup.setPrefWidth(130);
         cbProdGrup.setOnAction(event -> this.prodGrupChangedCase());
 
         Label lblProduk = new Label("Produkter:");
