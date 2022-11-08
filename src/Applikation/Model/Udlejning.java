@@ -1,6 +1,7 @@
 package Applikation.Model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Udlejning extends Salg {
 
@@ -8,12 +9,14 @@ public class Udlejning extends Salg {
 
     private boolean erAfleveret;
     private boolean erAktiv;
+    private ArrayList<Salgslinje> returneretProd;
 
     public Udlejning(LocalDateTime datoTid, Kunde kunde) {
         super(datoTid);
         this.erAfleveret = false;
         this.kunde = kunde;
         this.erAktiv = true;
+        returneretProd = new ArrayList<>();
     }
 
     public void setKunde (Kunde kunde){
@@ -52,10 +55,17 @@ public class Udlejning extends Salg {
     public void angivReturProd(Salgslinje salgslinje, int antal){
         for (Salgslinje sl : getSalgslinjer()){
             if (sl == salgslinje){
-                sl.setAntal(sl.getAntal()-antal);
-                samletPris();
+                if (antal <= sl.getAntal()) {
+                    sl.setAntal(sl.getAntal() - antal);
+                    returneretProd.add(sl);
+                    samletPris();
+                }
             }
         }
+    }
+
+    public ArrayList<Salgslinje> getReturneretProd() {
+        return new ArrayList<>(returneretProd);
     }
 
     public int beregnPant(){

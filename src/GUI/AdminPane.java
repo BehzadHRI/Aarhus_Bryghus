@@ -191,5 +191,6 @@ public class AdminPane extends GridPane {
 
     public void updatePane() {
         lvwProGrup.getItems().setAll(Controller.getProduktGrupper());
+
     }
 }

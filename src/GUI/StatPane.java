@@ -2,6 +2,9 @@ package GUI;
 
 import Applikation.Controller.Controller;
 import Applikation.Model.Salg;
+import Applikation.Model.Salgslinje;
+import Applikation.Model.Udlejning;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -9,11 +12,18 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 public class StatPane extends GridPane {
+    private Salg salg;
+    private Udlejning udlejning;
+
     private ListView<Salg> lvwSalg;
+    private ListView<Salgslinje> lvwSalgslinjer, lvwReturneretProd;
     private DatePicker datePickerSalg, dpfraKlip, dptilKlip;
     private TextField txfSamletSalg, txfKlipSolgt, txfKlipBrugt;
     private Label lblDato = new Label();
+    private Label lblDatoforUdlejning;
     private HBox hbKlipSolgt, hbKlipBrugt;
+    private Button btnVisInfo;
+    private CheckBox cbhAfslutttet;
 
     public StatPane(){
         this.setPadding(new Insets(20));
@@ -35,6 +45,9 @@ public class StatPane extends GridPane {
         lvwSalg.setPrefWidth(200);
         lvwSalg.setPrefHeight(200);
         lvwSalg.setCellFactory(new SalgCellFactory());
+        ChangeListener<Salg> salgChangeListener = (ov, oldSalg, newSalg) -> this.selectedSalgChanged();
+        lvwSalg.getSelectionModel().selectedItemProperty().addListener(salgChangeListener);
+
         HBox hbSamletSalg = new HBox(20);
         this.add(hbSamletSalg,0,2);
         Label lblSamletSalg = new Label("Samlet salg:");
@@ -74,7 +87,49 @@ public class StatPane extends GridPane {
         this.add(lblDato, 0, 4);
         this.add(hbKlipSolgt, 0, 5);
         this.add(hbKlipBrugt,0,6);
+
+        btnVisInfo = new Button("Vis detaljer om udlejning");
+        this.add(btnVisInfo, 2,0);
+        btnVisInfo.setDisable(true);
+        btnVisInfo.setOnAction(event -> this.visInfoAction());
+
+        HBox hbAfsluttet = new HBox(20);
+        this.add(hbAfsluttet,3,0);
+        lblDatoforUdlejning = new Label("Dato");
+        hbAfsluttet.getChildren().add(lblDatoforUdlejning);
+        cbhAfslutttet = new CheckBox("Afsluttet");
+        hbAfsluttet.getChildren().add(cbhAfslutttet);
+
+        lvwSalgslinjer = new ListView<>();
+        this.add(lvwSalgslinjer, 2,1,1,1);
+        lvwSalgslinjer.setPrefHeight(200);
+        lvwSalgslinjer.setPrefWidth(200);
+
+        lvwReturneretProd = new ListView<>();
+        this.add(lvwReturneretProd, 3,1,1,1);
+        lvwReturneretProd.setPrefWidth(200);
+        lvwReturneretProd.setPrefHeight(200);
+
+
     }
+
+    private void visInfoAction() {
+        lblDatoforUdlejning.setText("Dato:" +salg.getDatoTid().getDayOfMonth() + "-"+salg.getDatoTid().getMonthValue() + " Kl:" + salg.getDatoTid().getHour()+":"+salg.getDatoTid().getMinute());
+        cbhAfslutttet.setSelected(!udlejning.isErAktiv());
+        lvwSalgslinjer.getItems().setAll(udlejning.getSalgslinjer());
+        lvwReturneretProd.getItems().setAll(udlejning.getReturneretProd());
+    }
+
+    private void selectedSalgChanged() {
+        salg = lvwSalg.getSelectionModel().getSelectedItem();
+        if (salg.getClass() == Udlejning.class) {
+            udlejning = (Udlejning) salg;
+            btnVisInfo.setDisable(false);
+        }else {
+            btnVisInfo.setDisable(true);
+        }
+    }
+
     private void datoValgtAction() {
         lvwSalg.getItems().setAll(Controller.getSalgPåDato(datePickerSalg.getValue()));
         txfSamletSalg.setText(Controller.getPrisforDagensSalg(datePickerSalg.getValue())+"");
