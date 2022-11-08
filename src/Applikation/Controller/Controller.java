@@ -142,7 +142,7 @@ public class Controller {
         LocalDateTime tilDato = LocalDateTime.of(tilDatoInp.getYear(), tilDatoInp.getMonthValue(), tilDatoInp.getDayOfMonth(), 0, 0);
         for (Salg salg : Storage.getSalg()) {
             for (Salgslinje salgslinje : salg.getSalgslinjer()) {
-                if (salgslinje.getPris().getProdukt().getNavn().equals("diverse")
+                if (salgslinje.getPris().getProdukt().getNavn().equals("Klippekort, 4 klip")
                         && salg.getDatoTid().isBefore(tilDato.plusDays(1))
                         && salg.getDatoTid().isAfter(fraDato.minusDays(1))) {
                     result += 4;
@@ -150,7 +150,20 @@ public class Controller {
             }
         }
             return result;
+    }
 
+    public static int getBrugteKlipPeriode(LocalDate fraDatoInp, LocalDate tilDatoInp){
+        int result = 0;
+        LocalDateTime fraDato = LocalDateTime.of(fraDatoInp.getYear(), fraDatoInp.getMonthValue(), fraDatoInp.getDayOfMonth(), 0, 0);
+        LocalDateTime tilDato = LocalDateTime.of(tilDatoInp.getYear(), tilDatoInp.getMonthValue(), tilDatoInp.getDayOfMonth(), 0, 0);
+        for (Salg salg : Storage.getSalg()) {
+                if (    salg.isKlipBrugt()
+                        && salg.getDatoTid().isBefore(tilDato.plusDays(1))
+                        && salg.getDatoTid().isAfter(fraDato.minusDays(1))) {
+                    result +=salg.getFuldklip();
+            }
+        }
+        return result;
     }
 
     public static ArrayList<Udlejning> getAktiveUdlejninger(){
@@ -173,6 +186,10 @@ public class Controller {
 
     public static void returnereSalgslinjeForUdlejning(Salgslinje salgslinje, int antal, Udlejning udlejning){
         udlejning.angivReturProd(salgslinje, antal);
+    }
+
+    public static int returnerePantForUdlejning (Udlejning udlejning, Salgslinje salgslinje, int antal){
+        return udlejning.beregnPantForReturneretSalgsLinje(salgslinje, antal);
     }
 
     //---------------------------
@@ -402,21 +419,37 @@ public class Controller {
 
         Salg s3 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
         s3.createSalgslinje(2, pr4);
+        s3.createSalgslinje(2,pr6);
+        s3.brugKlip();
         s3.setBetalingsMetode("Dankort");
 
         Salg s4 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));
         s4.createSalgslinje(2, pr5);
-        s4.setBetalingsMetode("Klip");
+        s4.setBetalingsMetode("Kontant");
+
+        Salg s5 = new Salg(LocalDateTime.now());
+        s5.createSalgslinje(2, pr1);
+        s5.setBetalingsMetode("Dankort");
+
+        Salg s6 = new Salg(LocalDateTime.now());
+        s6.createSalgslinje(3,pr2);
+        s6.brugKlip();
 
         Controller.createSalg(s1);
         Controller.createSalg(s2);
         Controller.createSalg(s3);
         Controller.createSalg(s4);
+        Controller.createSalg(s5);
+        Controller.createSalg(s6);
 
         Kunde k1 = new Kunde("Behzad Haidari", "42334315", "Bispehavevej 3");
         Udlejning ud1 = new Udlejning(LocalDateTime.now(), k1);
         ud1.createSalgslinje(3, pr64);
-        ud1.createSalgslinje(2,pr67);
+        ud1.createSalgslinje(2, pr67);
+        ud1.createSalgslinje(2, pr85);
+        ud1.createSalgslinje(1, pr86);
+        ud1.setBetalingsMetode("Dankort");
+
 
         createSalg(ud1);
 

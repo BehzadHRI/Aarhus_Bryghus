@@ -43,6 +43,7 @@ public class UdlejWindow extends Stage {
     private TextField txfSumBetalt, txfTilbBetal, txfAntalRetur;
     private Button btnRetur, btnTilbageBetal;
     private Label lblWarning;
+    private CheckBox chbKunPant;
 
 
 
@@ -88,13 +89,15 @@ public class UdlejWindow extends Stage {
         btnRetur.setDisable(true);
         btnRetur.setOnAction(event -> this.returnProdAction());
 
-        /*pane.add(btnRetur,1,3);*/
+        chbKunPant = new CheckBox("Kun Pant");
+        hbretur.getChildren().add(chbKunPant);
+
+
 
         //Antal retur
         txfAntalRetur = new TextField();
         txfAntalRetur.setPromptText("Indtast antal her");
         hbretur.getChildren().add(txfAntalRetur);
-        /*pane.add(txfAntalRetur,1,4);*/
 
 
         Label lblSumBetalt = new Label("Sum Betalt: ");
@@ -103,7 +106,6 @@ public class UdlejWindow extends Stage {
         txfSumBetalt = new TextField();
         pane.add(txfSumBetalt,3,1);
         txfSumBetalt.setDisable(true);
-
 
 
 
@@ -121,14 +123,22 @@ public class UdlejWindow extends Stage {
 
     private void returnProdAction() {
         Salgslinje salgslinje = lvwSalgsLinjer.getSelectionModel().getSelectedItem();
-        try {
+        if (chbKunPant.isSelected()){
             int antal = Integer.parseInt(txfAntalRetur.getText());
-            Controller.returnereSalgslinjeForUdlejning(salgslinje, antal, udlejning);
-            returneretPant = fuldPris - udlejning.getSamletPris()- udlejning.beregnPant();
+            returneretPant += Controller.returnerePantForUdlejning(udlejning, salgslinje, antal);
             txfTilbBetal.setText(returneretPant+"");
-        } catch (NumberFormatException e){
-            lblWarning.setText("Ugyldig indtastet antal");
-            lblWarning.setTextFill(Color.RED);
+
+        }else {
+            try {
+                int antal = Integer.parseInt(txfAntalRetur.getText());
+                Controller.returnereSalgslinjeForUdlejning(salgslinje, antal, udlejning);
+                returneretPant = fuldPris - udlejning.getSamletPris() - udlejning.beregnPant();
+                txfTilbBetal.setText(returneretPant + "");
+                lvwSalgsLinjer.getItems().setAll(udlejning.getSalgslinjer());
+            } catch (NumberFormatException e) {
+                lblWarning.setText("Ugyldig indtastet antal");
+                lblWarning.setTextFill(Color.RED);
+            }
         }
     }
 
@@ -175,5 +185,8 @@ public class UdlejWindow extends Stage {
             };
         }
     }
+
+
+
 
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Storage {
 
+
     private static ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
     private static ArrayList<Salgstype> salgstyper = new ArrayList<>();
     private static ArrayList<Salg> salg = new ArrayList<>();
