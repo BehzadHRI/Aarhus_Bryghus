@@ -71,6 +71,18 @@ public class Udlejning extends Salg {
         return result;
     }
 
+    public int beregnPantForReturneretSalgsLinje(Salgslinje salgslinje, int antal){
+        int result = 0;
+            String pg = salgslinje.getPris().getProdukt().getProduktgruppe().getNavn();
+            if (pg.equals("Fustage")) {
+                result += antal * 200;
+            } else if (pg.equals("Kulsyre")) {
+                result += antal * 1000;
+            }
+
+        return result;
+    }
+
 
 
 }

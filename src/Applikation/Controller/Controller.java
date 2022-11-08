@@ -175,6 +175,10 @@ public class Controller {
         udlejning.angivReturProd(salgslinje, antal);
     }
 
+    public static int returnerePantForUdlejning (Udlejning udlejning, Salgslinje salgslinje, int antal){
+        return udlejning.beregnPantForReturneretSalgsLinje(salgslinje, antal);
+    }
+
     //---------------------------
     public static void init() {
         Salgstype fredagsBar = Controller.createSalgstype("FredagsBar");
