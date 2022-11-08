@@ -1,9 +1,11 @@
 package Applikation.Model;
 
 
+import com.sun.marlin.FloatArrayCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -53,6 +55,35 @@ class SalgTest {
         assertEquals(expected.isKlipBrugt(),s.isKlipBrugt());
 
     }
+
+    @Test
+
+    void createSalgsLinje_TC1_tjeksalgslinjeCreated() {
+        Salg salg = new Salg(LocalDateTime.now());
+        Salgslinje salgslinje= salg.createSalgslinje(4,ps);
+
+        assertEquals(salgslinje, salg.getSalgslinjer());
+        assertTrue(salg.getSalgslinjer().contains(salgslinje));
+    }
+
+    @Test
+
+    void removeSalgsLinje_TC1_tjeksalgslinjeRemoved() {
+        Salg salg = new Salg(LocalDateTime.now());
+        Salgslinje salgslinje= salg.createSalgslinje(4,ps);
+        assertTrue(salg.getSalgslinjer().contains(salgslinje));
+
+        salg.removeSalgslinje(salgslinje);
+        assertEquals(0,salg.getSalgslinjer().size());
+        assertFalse(salg.getSalgslinjer().contains(salgslinje));
+    }
+
+    @Test
+    void getBetalingsform_TC1_tjekbetalingsform() {
+
+    }
+
+
 
 
 
