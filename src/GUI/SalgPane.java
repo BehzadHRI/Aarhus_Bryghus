@@ -265,6 +265,7 @@ public class SalgPane extends GridPane {
     }
 
     public void updatePane(){
+        System.out.println("Lol");
         cbProduktGrup.getItems().setAll(Controller.getProduktGrupper());
         cbSalgsTyp.getItems().setAll(Controller.getSalgstyper());
     }
