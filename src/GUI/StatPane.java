@@ -122,7 +122,7 @@ public class StatPane extends GridPane {
 
     private void selectedSalgChanged() {
         salg = lvwSalg.getSelectionModel().getSelectedItem();
-        if (salg.getClass() == Udlejning.class) {
+        if (salg != null && salg.getClass() == Udlejning.class) {
             udlejning = (Udlejning) salg;
             btnVisInfo.setDisable(false);
         }else {
