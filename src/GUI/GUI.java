@@ -62,6 +62,11 @@ public class GUI extends Application {
         AdminUdlejningPane adminUdlejningPane = new AdminUdlejningPane();
         opretUdl.setContent(adminUdlejningPane);
 
+        Tab opretRund = new Tab("Bestil Rundvisning");
+        tabPane.getTabs().add(opretRund);
+        RundvisningPane rundvisningPane = new RundvisningPane();
+        opretRund.setContent(rundvisningPane);
+
 
 
     }
