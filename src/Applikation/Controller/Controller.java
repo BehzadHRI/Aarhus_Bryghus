@@ -192,6 +192,14 @@ public class Controller {
         return udlejning.beregnPantForReturneretSalgsLinje(salgslinje, antal);
     }
 
+
+    public static void setKundeForRundvisning(Rundvisning rundvisning, Kunde kunde){
+        rundvisning.setKunde(kunde);
+    }
+
+
+
+
     //---------------------------
     public static void init() {
         Salgstype fredagsBar = Controller.createSalgstype("FredagsBar");
