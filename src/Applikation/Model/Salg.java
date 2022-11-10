@@ -90,7 +90,7 @@ public class Salg {
                 klipBrugt = true;
             }
             this.betalingsMetode = betalingsMetode;
-        }else{
+        } else {
             throw new RuntimeException("Ugyldig Betalingsmetode");
         }
     }
@@ -118,9 +118,7 @@ public class Salg {
         int result = 0;
         for (Salgslinje ant : salgslinjer) {
             if (ant.getPris() != null) {
-//                if (!(ant.getPris().getProdukt().getProduktgruppe().getNavn().equals("Anlæg"))) {
-                    result += (ant.getAntal() * ant.getPris().getPris());
-//                }
+                result += (ant.getAntal() * ant.getPris().getPris());
             }
         }
         samletPris = result;

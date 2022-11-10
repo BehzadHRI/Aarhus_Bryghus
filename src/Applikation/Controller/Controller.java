@@ -62,11 +62,7 @@ public class Controller {
         Pris pr = st.createPris(pris, klip, produkt, st);
         return pr;
     }
-//    public static void removeSalgstype(Salgstype salgstype) {
-//        if (salgstype.getSalgstyper().isEmpty()) {
-//            Storage.removeSalgstype(salgstype);
-//        }
-//    }
+
 
     public static void removePrisFraSalgstype(Salgstype salgstype, Pris pris) {
         salgstype.removePris(pris);
@@ -125,11 +121,6 @@ public class Controller {
         }
         return result;
     }
-
-
-
-
-
 
 
 

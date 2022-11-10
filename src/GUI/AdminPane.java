@@ -17,9 +17,7 @@ public class AdminPane extends GridPane {
     private Produkt produkt;
     private ListView<Produktgruppe> lvwProGrup;
     private ListView<Produkt> lvwProd;
-    //
-    private ListView<Salgstype> lvwSalgsT;
-    //
+
     private Button btnSletProGru;
 
     public AdminPane() {
@@ -27,28 +25,6 @@ public class AdminPane extends GridPane {
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(false);
-
-
-        //--------------Registrer ny salgstype------------
-/*        Label lblSalgsT = new Label();
-        this.add(lblSalgsT, 0, 0);
-
-        lvwSalgsT = new ListView<>();
-        this.add(lvwSalgsT, 0, 1, 1, 2);
-
-
-        lvwSalgsT.getItems().setAll(Controller.getSalgstyper());
-
-
-        HBox hbxSalgsTButtons = new HBox(40);
-        this.add(hbxSalgsTButtons, 0,4,1,1);
-        hbxSalgsTButtons.setSpacing(10);
-
-        Button btnOpretSalgsT = new Button("Opret");
-        hbxSalgsTButtons.getChildren().add(btnOpretSalgsT);
-
-        Button btnSletSalgsT = new Button("Slet");
-        hbxSalgsTButtons.getChildren().add(btnSletSalgsT);*/
 
 
         //----------------Produktgrupper-----------------
@@ -100,29 +76,6 @@ public class AdminPane extends GridPane {
         Button btnSletPro = new Button("Slet");
         hbxProButtons.getChildren().add(btnSletPro);
         btnSletPro.setOnAction(event -> sletProAction());
-
-
-        //--------------Registrer ny salgstype------------
-//        Label lblSalgsT = new Label("Salgstype");
-//        this.add(lblSalgsT, 0, 0);
-//
-//        lvwSalgsT = new ListView<>();
-//        this.add(lvwSalgsT, 0, 1, 1, 2);
-//
-//
-//        lvwSalgsT.getItems().setAll(Controller.getSalgstyper());
-//
-//
-//        HBox hbxSalgsTButtons = new HBox(40);
-//        this.add(hbxSalgsTButtons, 0,4,1,1);
-//        hbxSalgsTButtons.setSpacing(10);
-//
-//        Button btnOpretSalgsT = new Button("Opret");
-//        hbxSalgsTButtons.getChildren().add(btnOpretSalgsT);
-//
-//        Button btnSletSalgsT = new Button("Slet");
-//        hbxSalgsTButtons.getChildren().add(btnSletSalgsT);
-
 
     }
 

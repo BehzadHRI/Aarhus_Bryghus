@@ -124,7 +124,6 @@ public class UdlejWindow extends Stage {
     }
 
 
-    //Lidt bøvl med returner pant + fuld fustage.
     private void returnProdAction() {
         Salgslinje salgslinje = lvwSalgsLinjer.getSelectionModel().getSelectedItem();
         if (chbKunPant.isSelected()) {
