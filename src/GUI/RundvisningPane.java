@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class RundvisningPane extends GridPane {
@@ -20,7 +21,9 @@ public class RundvisningPane extends GridPane {
 
     private Button btnopretRundv, btnBestilRundv;
     private ListView lvwRundvisningObj;
-    private TextField txfKundeNavn, txfKundeTlf, txfKundeAdresse, txfAntalPers, txfSum;
+    private TextField txfKundeNavn, txfKundeTlf, txfKundeAdresse, txfAntalPers, txfTid, txfPris, txfSum;
+    private DatePicker datePicker;
+
 
     public RundvisningPane(){
         this.setPadding(new Insets(20));
@@ -59,9 +62,21 @@ public class RundvisningPane extends GridPane {
         vbox1.getChildren().add(txfAntalPers);
         txfAntalPers.setPrefWidth(100);
 
+        datePicker = new DatePicker();
+        vbox1.getChildren().add(datePicker);
+
+        txfTid = new TextField();
+        txfTid.setPromptText("Indtast mødetidspunkt HH:MM");
+        vbox1.getChildren().add(txfTid);
+
+        txfPris = new TextField();
+        txfPris.setPromptText("Indtast Pris for Rundvisningen");
+        vbox1.getChildren().add(txfPris);
+
+
         btnopretRundv = new Button("Opret Rundvisning");
         vbox1.getChildren().add(btnopretRundv);
-        btnopretRundv.setOnAction(event -> opretRundvisning());
+        btnopretRundv.setOnAction(event -> tilføjRundvisning());
 
         lvwRundvisningObj = new ListView();
         vbox1.getChildren().add(lvwRundvisningObj);
@@ -72,14 +87,18 @@ public class RundvisningPane extends GridPane {
 
     }
 
-    private void opretRundvisning(){
+    private void tilføjRundvisning(){
+        int antalPers = Integer.parseInt(txfAntalPers.getText());
+        Controller.createSalgslinjeForRundvisning(rundvisning,antalPers,pris);
         kunde = new Kunde(txfKundeNavn.getText(),txfKundeTlf.getText(),txfKundeAdresse.getText());
-        int antal = Integer.parseInt(txfAntalPers.getText());
-        Controller.setDatoTidforSalg(rundvisning, LocalDateTime.now());
-        Controller.createSalg(rundvisning);
-        Controller.setKundeForRundvisning(rundvisning,kunde);/*
-        lvwRundvisningObj.getItems().setAll(Controller.g)*/
-        this.updateControls();
+        Controller.setKundeForRundvisning(rundvisning,kunde);
+
+}
+
+    private void bestilRundvisning(){
+        if(rundvisning != null){
+
+        }
     }
 
 

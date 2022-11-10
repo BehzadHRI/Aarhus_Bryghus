@@ -100,6 +100,13 @@ public class Controller {
     }
 
 
+    public static Salgslinje createSalgslinjeForRundvisning(Rundvisning rundvisning, int antal, Pris pris){
+        return Controller.createSalgsLinjeforSalg(rundvisning,antal,pris);
+    }
+
+
+
+
 
     public static void setRabatforSalg(Salg salg, int rabat){
         salg.setRabat(rabat);
