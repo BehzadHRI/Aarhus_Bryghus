@@ -51,7 +51,7 @@ public class AdminUdlejningPane extends GridPane {
 
         cbProGroup = new ComboBox<>();
         vbox.getChildren().add(cbProGroup);
-        cbProGroup.getItems().setAll(Controller.getProduktGrupper());
+        cbProGroup.getItems().setAll(Controller.getProduktgrupperTilUdlejning());
         cbProGroup.setOnAction(event -> this.selectedProGrupChanged());
 
 

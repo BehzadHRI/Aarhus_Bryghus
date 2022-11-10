@@ -8,9 +8,14 @@ import Applikation.Model.Salgslinje;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.converter.DateTimeStringConverter;
+import javafx.util.converter.TimeStringConverter;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class RundvisningPane extends GridPane {
@@ -18,11 +23,14 @@ public class RundvisningPane extends GridPane {
     private Kunde kunde;
     private Rundvisning rundvisning = new Rundvisning(LocalDateTime.now(),kunde,LocalDateTime.now(),0,false);
     private Pris pris;
+    private int hour, min;
 
     private Button btnopretRundv, btnBestilRundv;
     private ListView lvwRundvisningObj;
     private TextField txfKundeNavn, txfKundeTlf, txfKundeAdresse, txfAntalPers, txfTid, txfPris, txfSum;
     private DatePicker datePicker;
+    private Label lblWarning;
+    private ComboBox<Integer> cbHour, cbMin;
 
 
     public RundvisningPane(){
@@ -62,52 +70,92 @@ public class RundvisningPane extends GridPane {
         vbox1.getChildren().add(txfAntalPers);
         txfAntalPers.setPrefWidth(100);
 
-        datePicker = new DatePicker();
-        vbox1.getChildren().add(datePicker);
+        lblWarning = new Label();
+        this.add(lblWarning, 3,0);
 
-        txfTid = new TextField();
-        txfTid.setPromptText("Indtast mødetidspunkt HH:MM");
-        vbox1.getChildren().add(txfTid);
+        datePicker = new DatePicker();
+        HBox hBoxDateTime = new HBox(20);
+        hBoxDateTime.getChildren().add(datePicker);
+        cbHour = new ComboBox();
+        hBoxDateTime.getChildren().add(cbHour);
+        for (int i = 0; i <24; i++){
+            cbHour.getItems().add(i);
+        }
+        cbHour.setOnAction(event -> { hour = cbHour.getValue();});
+        cbMin = new ComboBox();
+        hBoxDateTime.getChildren().add(cbMin);
+        for (int i = 0; i <=60; i+=5){
+            cbMin.getItems().add(i);
+        }
+        cbMin.setOnAction(event -> { min = cbMin.getValue();});
+        vbox1.getChildren().add(hBoxDateTime);
 
         txfPris = new TextField();
         txfPris.setPromptText("Indtast Pris for Rundvisningen");
         vbox1.getChildren().add(txfPris);
 
-
+        HBox hBox1 = new HBox(20);
+        vbox1.getChildren().add(hBox1);
         btnopretRundv = new Button("Opret Rundvisning");
-        vbox1.getChildren().add(btnopretRundv);
+        hBox1.getChildren().add(btnopretRundv);
+        btnopretRundv.setDisable(true);
+        ComboBox<String> cbBetaling = new ComboBox<>();
+        cbBetaling.getItems().add("Kontant");
+        cbBetaling.getItems().add("Dankort");
+        cbBetaling.setOnAction(event -> {
+            Controller.setBetalingsmetode(rundvisning, cbBetaling.getValue());
+            btnopretRundv.setDisable(false);
+        });
+        hBox1.getChildren().add(cbBetaling);
+        cbBetaling.setPromptText("Betalingsmetode");
+
         btnopretRundv.setOnAction(event -> tilføjRundvisning());
 
         lvwRundvisningObj = new ListView();
         vbox1.getChildren().add(lvwRundvisningObj);
         lvwRundvisningObj.setPrefHeight(150);
 
-        btnBestilRundv = new Button("Bestil Rundvisning");
-        vbox1.getChildren().add(btnBestilRundv);
-
     }
 
     private void tilføjRundvisning(){
-        int antalPers = Integer.parseInt(txfAntalPers.getText());
-        Controller.createSalgslinjeForRundvisning(rundvisning,antalPers,pris);
-        kunde = new Kunde(txfKundeNavn.getText(),txfKundeTlf.getText(),txfKundeAdresse.getText());
-        Controller.setKundeForRundvisning(rundvisning,kunde);
+        try {
+            String kdNavn = txfKundeNavn.getText();
+            String kdTlf = txfKundeTlf.getText();
+            String kdAdr = txfKundeAdresse.getText();
+            int antalPers = Integer.parseInt(txfAntalPers.getText());
 
+            int year = datePicker.getValue().getYear();
+            int month = datePicker.getValue().getMonthValue();
+            int day = datePicker.getValue().getDayOfMonth();
+
+
+
+            Controller.createSalgslinjeForRundvisning(rundvisning,antalPers);
+            Controller.setDatoTidforRundvisning(rundvisning, year,month,day,hour,min);
+            kunde = new Kunde(kdNavn, kdTlf, kdAdr);
+            Controller.setKundeForRundvisning(rundvisning, kunde);
+            Controller.createSalg(rundvisning);
+            if (txfPris.getText().length()>0){
+                Controller.setPrisforRundvisning(rundvisning, Integer.parseInt(txfPris.getText()));
+            }
+            updateControls();
+        } catch (NumberFormatException e){
+            lblWarning.setText("Ugyldigt antal personer");
+            lblWarning.setTextFill(Color.RED);
+        }
 }
 
-    private void bestilRundvisning(){
-        if(rundvisning != null){
-
-        }
-    }
-
-
     private void updateControls(){
-        lvwRundvisningObj.getItems().setAll(rundvisning.getSalgslinjer());
+        lvwRundvisningObj.getItems().setAll(Controller.getAlleRundvisninger());
         txfAntalPers.clear();
         txfKundeAdresse.clear();
         txfKundeNavn.clear();
         txfKundeTlf.clear();
+        kunde = null;
+        rundvisning = new Rundvisning(LocalDateTime.now(), kunde, LocalDateTime.now(), 1, true);
+        btnopretRundv.setDisable(true);
+
+
     }
 
 

@@ -83,7 +83,6 @@ public class Controller {
 
 
     public static Salgslinje createSalgsLinjeforSalg(Salg salg, int antal, Pris pris){
-
         return salg.createSalgslinje(antal, pris);
     }
 
@@ -100,9 +99,36 @@ public class Controller {
     }
 
 
-    public static Salgslinje createSalgslinjeForRundvisning(Rundvisning rundvisning, int antal, Pris pris){
-        return Controller.createSalgsLinjeforSalg(rundvisning,antal,pris);
+    public static Salgslinje createSalgslinjeForRundvisning(Rundvisning rundvisning, int antal){
+        return createSalgsLinjeforSalg(rundvisning, antal, getRundvisningPris());
+
     }
+    public static void setDatoTidforRundvisning(Rundvisning rund, int year, int month, int day, int hour, int min){
+        rund.setDatoTid(LocalDateTime.of(year,month,day,hour,min));
+    }
+    public static Pris getRundvisningPris(){
+        Pris result = null;
+        for (Pris pr : getSalgstypeMedNavn("Butik").getPriser()){
+            if (pr.getProdukt().getProduktgruppe().getNavn().equalsIgnoreCase("Rundvisning")){
+                result = pr;
+            }
+        }
+        return result;
+    }
+
+    public static Salgstype getSalgstypeMedNavn(String navn){
+        Salgstype result = null;
+        for (Salgstype salgstype : getSalgstyper()){
+            if (salgstype.getNavn().equalsIgnoreCase(navn)){
+                result = salgstype;
+            }
+        }
+        return result;
+    }
+
+
+
+
 
 
 
@@ -196,7 +222,22 @@ public class Controller {
     }
 
     public static int returnerePantForUdlejning (Udlejning udlejning, Salgslinje salgslinje, int antal){
+        udlejning.angivReturProdKunPant(salgslinje,antal);
         return udlejning.beregnPantForReturneretSalgsLinje(salgslinje, antal);
+    }
+
+    public static ArrayList<Produktgruppe> getProduktgrupperTilUdlejning(){
+        ArrayList<Produktgruppe> result = new ArrayList<>();
+        for (Produktgruppe pg : getProduktGrupper()){
+            if (pg.isKanUdlejes()){
+                result.add(pg);
+            }
+        }
+        return result;
+    }
+
+    public static void setAfsluttetforUdlejning(Udlejning udlejning, boolean afsluttet){
+        udlejning.setErAktiv(!afsluttet);
     }
 
 
@@ -204,6 +245,19 @@ public class Controller {
         rundvisning.setKunde(kunde);
     }
 
+    public static ArrayList<Rundvisning> getAlleRundvisninger(){
+        ArrayList<Rundvisning> result = new ArrayList<>();
+        for(Salg s : Storage.getSalg()){
+            if (s.getClass() == Rundvisning.class){
+                result.add((Rundvisning) s);
+            }
+        }
+        return result;
+    }
+
+    public static void setPrisforRundvisning(Rundvisning rundvisning, int pris){
+        rundvisning.getSalgslinjer().get(0).getPris().setPris(pris);
+    }
 
 
 
@@ -421,7 +475,7 @@ public class Controller {
         Pris pr104 = Controller.createPrisForSalgsType(butik, p73, 370, 0);
 
         Produkt p74 = Controller.createProdukt("pr person pr dag", rundvisning);
-        Pris pr105 = Controller.createPrisForSalgsType(butik, p74, 370, 0);
+        Pris pr105 = Controller.createPrisForSalgsType(butik, p74, 100, 0);
 
 
         Salg s1 = new Salg(LocalDateTime.of(2022, 11, 01, 12, 30));

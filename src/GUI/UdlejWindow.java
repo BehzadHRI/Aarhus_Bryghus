@@ -24,7 +24,7 @@ public class UdlejWindow extends Stage {
     private Udlejning udlejning;
     private int fuldPris, returneretPant;
 
-    public UdlejWindow(String title){
+    public UdlejWindow(String title) {
         initStyle(StageStyle.UTILITY);
         initModality(Modality.APPLICATION_MODAL);
         setResizable(false);
@@ -46,7 +46,6 @@ public class UdlejWindow extends Stage {
     private CheckBox chbKunPant;
 
 
-
     private void initContent(GridPane pane) {
 
         pane.setPadding(new Insets(20));
@@ -57,16 +56,15 @@ public class UdlejWindow extends Stage {
 
         //Aktive Udlejninger
         Label lblAktUdl = new Label("Aktive Udlejninger");
-        pane.add(lblAktUdl,0,0);
+        pane.add(lblAktUdl, 0, 0);
 
         lvwAktiUdl = new ListView();
-        pane.add(lvwAktiUdl,0,1);
+        pane.add(lvwAktiUdl, 0, 1);
         lvwAktiUdl.setPrefHeight(200);
         lvwAktiUdl.getItems().setAll(Controller.getAktiveUdlejninger());
         lvwAktiUdl.setCellFactory(new UdlejningCellFactory());
-        ChangeListener<Udlejning> udlejningChangeListener = (ov, oldUdl, newUdl)-> this.selectedUdlejChanged();
+        ChangeListener<Udlejning> udlejningChangeListener = (ov, oldUdl, newUdl) -> this.selectedUdlejChanged();
         lvwAktiUdl.getSelectionModel().selectedItemProperty().addListener(udlejningChangeListener);
-
 
 
         //Produkter
@@ -74,13 +72,13 @@ public class UdlejWindow extends Stage {
         pane.add(lblUdlejsPro, 1, 0);
 
         lvwSalgsLinjer = new ListView<>();
-        pane.add(lvwSalgsLinjer,1,1);
+        pane.add(lvwSalgsLinjer, 1, 1);
         lvwSalgsLinjer.setPrefHeight(100);
 
         lblWarning = new Label("");
-        pane.add(lblWarning, 1,2);
+        pane.add(lblWarning, 1, 2);
         HBox hbretur = new HBox(20);
-        pane.add(hbretur,1,3 );
+        pane.add(hbretur, 1, 3);
 
 
         //Retur
@@ -93,7 +91,6 @@ public class UdlejWindow extends Stage {
         hbretur.getChildren().add(chbKunPant);
 
 
-
         //Antal retur
         txfAntalRetur = new TextField();
         txfAntalRetur.setPromptText("Indtast antal her");
@@ -101,42 +98,65 @@ public class UdlejWindow extends Stage {
 
 
         Label lblSumBetalt = new Label("Sum Betalt: ");
-        pane.add(lblSumBetalt,2, 1);
+        pane.add(lblSumBetalt, 2, 1);
 
         txfSumBetalt = new TextField();
-        pane.add(txfSumBetalt,3,1);
+        pane.add(txfSumBetalt, 3, 1);
         txfSumBetalt.setDisable(true);
-
 
 
         //Tilbagebetaling
         Label lblTilbBetal = new Label("Tilbagebetaling");
-        pane.add(lblTilbBetal, 2,2);
+        pane.add(lblTilbBetal, 2, 2);
 
         txfTilbBetal = new TextField();
-        pane.add(txfTilbBetal,3,2);
+        pane.add(txfTilbBetal, 3, 2);
 
         btnTilbageBetal = new Button("TilbageBetal");
-        pane.add(btnTilbageBetal, 3,3);
+        pane.add(btnTilbageBetal, 3, 3);
+        btnTilbageBetal.setOnAction(event -> this.bekræftetafslutning());
 
+    }
+
+    private void bekræftetafslutning() {
+        lvwSalgsLinjer.getItems().clear();
+        Controller.setAfsluttetforUdlejning(udlejning, true);
     }
 
 
     //Lidt bøvl med returner pant + fuld fustage.
     private void returnProdAction() {
         Salgslinje salgslinje = lvwSalgsLinjer.getSelectionModel().getSelectedItem();
-        if (chbKunPant.isSelected()){
-            int antal = Integer.parseInt(txfAntalRetur.getText());
-            returneretPant += Controller.returnerePantForUdlejning(udlejning, salgslinje, antal);
-            txfTilbBetal.setText(returneretPant+"");
+        if (chbKunPant.isSelected()) {
+            try {
 
-        }else {
+
+                int antal = Integer.parseInt(txfAntalRetur.getText());
+                if (antal > salgslinje.getAntal()) {
+                    lblWarning.setText("Ugyldig antal");
+                    lblWarning.setTextFill(Color.RED);
+                } else {
+                    returneretPant += Controller.returnerePantForUdlejning(udlejning, salgslinje, antal);
+                    txfTilbBetal.setText(returneretPant + "");
+                    updatePane();
+                }
+            } catch (NumberFormatException e){
+                lblWarning.setText("Ugyldig indtastet antal");
+                lblWarning.setTextFill(Color.RED);
+            }
+        } else {
             try {
                 int antal = Integer.parseInt(txfAntalRetur.getText());
-                Controller.returnereSalgslinjeForUdlejning(salgslinje, antal, udlejning);
-                returneretPant = fuldPris - udlejning.getSamletPris() - udlejning.beregnPant();
-                txfTilbBetal.setText(returneretPant + "");
-                lvwSalgsLinjer.getItems().setAll(udlejning.getSalgslinjer());
+                if (antal > salgslinje.getAntal()) {
+                    lblWarning.setText("Ugyldig antal");
+                    lblWarning.setTextFill(Color.RED);
+                } else {
+                    Controller.returnereSalgslinjeForUdlejning(salgslinje, antal, udlejning);
+                    returneretPant = fuldPris - udlejning.getSamletPris() - udlejning.beregnPant();
+                    txfTilbBetal.setText(returneretPant + "");
+                    lvwSalgsLinjer.getItems().setAll(udlejning.getSalgslinjer());
+                    updatePane();
+                }
             } catch (NumberFormatException e) {
                 lblWarning.setText("Ugyldig indtastet antal");
                 lblWarning.setTextFill(Color.RED);
@@ -152,8 +172,8 @@ public class UdlejWindow extends Stage {
     private void selectedUdlejChanged() {
         udlejning = lvwAktiUdl.getSelectionModel().getSelectedItem();
         lvwSalgsLinjer.getItems().setAll(udlejning.getSalgslinjer());
-        fuldPris = udlejning.getSamletPris()+ udlejning.beregnPant();
-        txfSumBetalt.setText(fuldPris+"");
+        fuldPris = udlejning.getSamletPris() + udlejning.beregnPant();
+        txfSumBetalt.setText(fuldPris + "");
         btnRetur.setDisable(false);
     }
 
@@ -173,14 +193,14 @@ public class UdlejWindow extends Stage {
     }*/
 
     class UdlejningCellFactory implements Callback<ListView<Udlejning>, ListCell<Udlejning>> {
-        public ListCell<Udlejning> call(ListView<Udlejning> param){
-            return new ListCell<Udlejning>(){
-                public void updateItem(Udlejning salg, boolean empty){
+        public ListCell<Udlejning> call(ListView<Udlejning> param) {
+            return new ListCell<Udlejning>() {
+                public void updateItem(Udlejning salg, boolean empty) {
                     super.updateItem(salg, empty);
-                    if (empty || salg == null){
+                    if (empty || salg == null) {
                         setText(null);
-                    }else {
-                        setText(salg.getDatoTid().getDayOfMonth() + "-" + salg.getDatoTid().getMonthValue() + "-" + salg.getDatoTid().getYear() + " " + salg.getDatoTid().getHour()+":" + salg.getDatoTid().getMinute() + "\n"
+                    } else {
+                        setText(salg.getDatoTid().getDayOfMonth() + "-" + salg.getDatoTid().getMonthValue() + "-" + salg.getDatoTid().getYear() + " " + salg.getDatoTid().getHour() + ":" + salg.getDatoTid().getMinute() + "\n"
                                 + salg.getKunde().getNavn() + ", " + salg.getSamletPris() + ",-");
                     }
                 }
@@ -188,7 +208,12 @@ public class UdlejWindow extends Stage {
         }
     }
 
+    public void updatePane() {
+        lvwSalgsLinjer.getItems().setAll(udlejning.getSalgslinjer());
+        txfAntalRetur.setText("");
+        chbKunPant.setSelected(false);
 
+    }
 
 
 }

@@ -10,6 +10,7 @@ public class Udlejning extends Salg {
     private boolean erAfleveret;
     private boolean erAktiv;
     private ArrayList<Salgslinje> returneretProd;
+    private int tempint;
 
     public Udlejning(LocalDateTime datoTid, Kunde kunde) {
         super(datoTid);
@@ -17,6 +18,7 @@ public class Udlejning extends Salg {
         this.kunde = kunde;
         this.erAktiv = true;
         returneretProd = new ArrayList<>();
+        tempint = 0;
     }
 
     public void setKunde (Kunde kunde){
@@ -59,6 +61,27 @@ public class Udlejning extends Salg {
                     sl.setAntal(sl.getAntal() - antal);
                     returneretProd.add(sl);
                     samletPris();
+                }
+            }
+        }
+    }
+
+    @Override
+    public int samletPris(){
+        return super.samletPris()+tempint;
+    }
+
+    public int getTempint() {
+        return tempint;
+    }
+
+    public void angivReturProdKunPant(Salgslinje salgslinje, int antal){
+        for (Salgslinje sl : getSalgslinjer()){
+            if (sl == salgslinje){
+                if (antal <= sl.getAntal()) {
+                    sl.setAntal(sl.getAntal() - antal);
+                    returneretProd.add(sl);
+                    tempint += sl.getPris().getPris()*antal;
                 }
             }
         }
