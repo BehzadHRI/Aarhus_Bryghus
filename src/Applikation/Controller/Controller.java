@@ -162,11 +162,11 @@ public class Controller {
 
     public static int getSolgteKlipIPeriode(LocalDate fraDatoInp, LocalDate tilDatoInp) {
         int result = 0;
-        LocalDateTime fraDato = LocalDateTime.of(fraDatoInp.getYear(), fraDatoInp.getMonthValue(), fraDatoInp.getDayOfMonth(), 0, 0);
+        LocalDateTime fraDato = LocalDateTime.of(fraDatoInp.getYear(), fraDatoInp.getMonthValue(), fraDatoInp.getDayOfMonth(), 23, 59);
         LocalDateTime tilDato = LocalDateTime.of(tilDatoInp.getYear(), tilDatoInp.getMonthValue(), tilDatoInp.getDayOfMonth(), 0, 0);
         for (Salg salg : Storage.getSalg()) {
             for (Salgslinje salgslinje : salg.getSalgslinjer()) {
-                if (salgslinje.getPris().getProdukt().getNavn().equals("Klippekort, 4 klip")
+                if (salgslinje.getPris().getProdukt().getNavn().equalsIgnoreCase("Klippekort, 4 klip")
                         && salg.getDatoTid().isBefore(tilDato.plusDays(1))
                         && salg.getDatoTid().isAfter(fraDato.minusDays(1))) {
                     result += 4;
